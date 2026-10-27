@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>MACFit Cam Giydirme</title>
+<title>MACFit Eskişehir · Teklif</title>
 <meta name="description" content="MACFit Eskişehir: üç cephe için cam giydirme tasarımı, mevcut ve uygulama sonrası görünüm.">
-<meta property="og:title" content="MACFit Cam Giydirme">
+<meta property="og:title" content="MACFit Eskişehir · Teklif">
 <meta property="og:description" content="Üç cephe · mevcut ve uygulama sonrası görünüm">
 <meta property="og:image" content="i/on_sonra-1280.webp">
 <link rel="preload" as="font" type="font/woff2" href="f/manrope-latin.woff2" crossorigin>
@@ -134,6 +134,36 @@ img{-webkit-user-drag:none;user-select:none;-webkit-touch-callout:none;pointer-e
 .korumali::after{content:"";position:absolute;inset:0;background:transparent}
 body{-webkit-user-select:none;user-select:none}
 @media print{body{display:none!important}}
+
+/* iki ürün */
+.urunler{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px;max-width:760px}
+@media (max-width:640px){.urunler{grid-template-columns:1fr}}
+.urun-kart{display:flex;flex-direction:column;gap:4px;padding:16px 18px;border-radius:14px;background:rgba(15,15,14,.62);border:1px solid rgba(255,255,255,.16);color:#fff;text-decoration:none;backdrop-filter:blur(6px);transition:border-color .2s,transform .2s}
+.urun-kart:hover{border-color:var(--vurgu);transform:translateY(-2px)}
+.urun-kart small{color:var(--vurgu);font-weight:800;font-size:12px;letter-spacing:.08em}
+.urun-kart b{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.urun-kart span{font-size:13px;color:#c9c9c2}
+.urun-bas{margin-top:110px;padding:40px 0 8px;border-top:1px solid var(--cizgi);display:grid;grid-template-columns:auto 1fr;gap:6px 26px;align-items:start}
+.urun-bas:first-of-type{margin-top:72px}
+.urun-no{font-size:clamp(56px,8vw,104px);font-weight:800;letter-spacing:-.05em;line-height:.85;color:var(--vurgu);grid-row:span 2}
+.urun-bas h2{font-size:clamp(30px,4.4vw,54px);line-height:1.02;letter-spacing:-.035em}
+.urun-bas p{color:var(--ikincil);font-size:16px;max-width:640px;margin-top:10px}
+.urun-ozet{display:flex;gap:34px;flex-wrap:wrap;margin-top:18px}
+.urun-ozet b{display:block;font-size:24px;font-weight:800;letter-spacing:-.02em}
+.urun-ozet span{font-size:13px;color:var(--ikincil)}
+@media (max-width:640px){.urun-bas{grid-template-columns:1fr}.urun-no{grid-row:auto}}
+.gez-ayrac{flex:none;width:1px;background:var(--cizgi);margin:4px 6px}
+nav.gez a.grup-link{color:var(--metin);font-weight:800}
+.adimlar{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:860px){.adimlar{grid-template-columns:1fr}}
+.adim{background:var(--yuzey);border:1px solid var(--cizgi);border-radius:16px;padding:22px}
+.adim i{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--vurgu);color:#121210;font-style:normal;font-weight:800;margin-bottom:14px}
+.adim b{display:block;font-size:18px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
+.adim span{font-size:14.5px;color:var(--ikincil)}
+.demo-kart{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;background:var(--yuzey);border:1px solid var(--cizgi);border-left:4px solid var(--vurgu);border-radius:18px;padding:30px 32px}
+.demo-kart h2{margin:6px 0 8px}
+.demo-kart p{color:var(--ikincil);max-width:560px}
+.demo-kart .demo-dugme{margin-top:0}
 </style>
 </head>
 <body>
@@ -143,24 +173,31 @@ body{-webkit-user-select:none;user-select:none}
   <div class="ust-bar"><div class="marka">belirgin<b>.</b></div><button class="tema" id="tema" type="button">Açık tema</button></div>
   <div class="ic">
     <span class="etiket">MACFit · Eskişehir</span>
-    <h1>Cam giydirme<br><span>tasarımı</span></h1>
-    <p>Üç cephe, tek bir görsel dil. Siyah zemin üzerinde neon lime ışık, hareket hâlindeki sporcular ve camların ardında okunan salon.</p>
-    <div class="ozet">
-      <div><b>3</b><span>cephe</span></div>
-      <div><b>~200 m²</b><span>cam yüzey</span></div>
-      <div><b>3</b><span>bütünleşik tasarım</span></div>
+    <h1>Şube için<br><span>iki çözüm</span></h1>
+    <p>Dışarıda dikkat çeken bir cephe, içeride üyeyi kaybetmeyen bir takip sistemi.</p>
+    <div class="urunler">
+      <a href="#reklam" class="urun-kart"><small>01</small><b>Cam giydirme ve reklam görselleri</b><span>3 cephe · ~200 m² · baskıya hazır tasarım</span></a>
+      <a href="#platform" class="urun-kart"><small>02</small><b>Üye takip platformu</b><span>Otomatik iletişim · yenileme · kampanya</span></a>
     </div>
   </div>
 </header>
 
 <nav class="gez" aria-label="Bölümler"><div class="kap">
-  <a href="#konsept">Konsept</a><a href="#on">Ön cephe</a><a href="#kose">Köşe</a><a href="#yan">Yan cephe</a><a href="#tasarimlar">Tasarımlar</a><a href="#plan">Cam planı</a><a href="#uygulama">Uygulama</a><a href="#uye-masasi">Üye masası</a>
+  <a href="#reklam" class="grup-link">01 Reklam görselleri</a><a href="#on">Ön cephe</a><a href="#kose">Köşe</a><a href="#yan">Yan cephe</a><a href="#tasarimlar">Tasarımlar</a><a href="#plan">Cam planı</a><a href="#uygulama">Uygulama</a>
+  <span class="gez-ayrac"></span>
+  <a href="#platform" class="grup-link">02 Takip platformu</a><a href="#nasil">Nasıl çalışır</a><a href="#ekranlar">Ekranlar</a><a href="#demo">Demo</a>
 </div></nav>
 
 <main class="kap">
 
+<header id="reklam" class="urun-bas gor">
+  <span class="urun-no">01</span>
+  <div><h2>Cam giydirme ve reklam görselleri</h2><p>Üç cephe için tek parça, baskıya hazır tasarım. Mevcut fotoğraflar üzerinde uygulama sonrası görünüm.</p></div>
+  <div class="urun-ozet"><div><b>3</b><span>cephe</span></div><div><b>~200 m²</b><span>cam yüzey</span></div><div><b>57</b><span>numaralı cam</span></div></div>
+</header>
+
 <section id="konsept" class="gor">
-  <div class="bas"><span class="no">01</span><div><h2>Konsept</h2><p class="alt">Camlara tek bir büyük görsel işlenir. Görsel kayıtlarla bölünse de bütün olarak okunur: kayıtlar tasarımın önünde kalır, görsel arkada kesintisiz devam eder.</p></div></div>
+  <div class="bas"><span class="no">1.1</span><div><h2>Konsept</h2><p class="alt">Camlara tek bir büyük görsel işlenir. Görsel kayıtlarla bölünse de bütün olarak okunur: kayıtlar tasarımın önünde kalır, görsel arkada kesintisiz devam eder.</p></div></div>
   <div class="ilkeler">
     <div class="ilke"><i>ENERJİ</i><b>Hareket anı</b><span>Startta fırlayan koşucu, kutuya sıçrayan sporcu, ışık dalgası üzerinde beş branş. Her cephe bir hareketi dondurur.</span></div>
     <div class="ilke"><i>BÜTÜNLÜK</i><b>Tek görsel dil</b><span>Üç cephe aynı palet ve ışık karakterini paylaşır. Binanın her köşesinden aynı marka okunur.</span></div>
@@ -174,7 +211,7 @@ body{-webkit-user-select:none;user-select:none}
 </section>
 
 <section id="on" class="gor">
-  <div class="bas"><span class="no">02</span><div><h2>Ön cephe · giriş</h2><p class="alt">Koşucu sol cam grubunda, yüzü camın ortasında. Kutuya sıçrayan sporcu sağ grupta. Girişin iki yanındaki hız çizgileri bakışı kapıya taşır; otomatik kapı şeffaf kalır.</p></div></div>
+  <div class="bas"><span class="no">1.2</span><div><h2>Ön cephe · giriş</h2><p class="alt">Koşucu sol cam grubunda, yüzü camın ortasında. Kutuya sıçrayan sporcu sağ grupta. Girişin iki yanındaki hız çizgileri bakışı kapıya taşır; otomatik kapı şeffaf kalır.</p></div></div>
   <div class="os" style="--k:50%">
     <img decoding="async" src="i/on_sonra-1280.webp" srcset="i/on_sonra-640.webp 640w, i/on_sonra-1280.webp 1280w, i/on_sonra-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Ön cephe, uygulama sonrası" loading="lazy">
     <img decoding="async" class="ust" src="i/on_once-1280.webp" srcset="i/on_once-640.webp 640w, i/on_once-1280.webp 1280w, i/on_once-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Ön cephe, mevcut hali" loading="lazy">
@@ -186,7 +223,7 @@ body{-webkit-user-select:none;user-select:none}
 </section>
 
 <section id="kose" class="gor">
-  <div class="bas"><span class="no">03</span><div><h2>Köşe</h2><p class="alt">Solda ön cephe, köşeyi dönünce yan cephe. Beş sporcu tek bir ışık dalgası üzerinde soldan sağa akar. Üst camlar boş bırakılarak cephe ferahlatılır.</p></div></div>
+  <div class="bas"><span class="no">1.3</span><div><h2>Köşe</h2><p class="alt">Solda ön cephe, köşeyi dönünce yan cephe. Beş sporcu tek bir ışık dalgası üzerinde soldan sağa akar. Üst camlar boş bırakılarak cephe ferahlatılır.</p></div></div>
   <div class="os" style="--k:50%">
     <img decoding="async" src="i/kose_sonra-1280.webp" srcset="i/kose_sonra-640.webp 640w, i/kose_sonra-1280.webp 1280w, i/kose_sonra-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Köşe, uygulama sonrası" loading="lazy">
     <img decoding="async" class="ust" src="i/kose_once-1280.webp" srcset="i/kose_once-640.webp 640w, i/kose_once-1280.webp 1280w, i/kose_once-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Köşe, mevcut hali" loading="lazy">
@@ -197,7 +234,7 @@ body{-webkit-user-select:none;user-select:none}
 </section>
 
 <section id="yan" class="gor">
-  <div class="bas"><span class="no">04</span><div><h2>Yan cephe</h2><p class="alt">Tek kahraman görsel: barı başının üstüne kaldıran halterci, plakalar iki yeşil gezegen. Kırık cam değiştirilmeden önüne çerçeveli kompozit panel monte edilir.</p></div></div>
+  <div class="bas"><span class="no">1.4</span><div><h2>Yan cephe</h2><p class="alt">Tek kahraman görsel: barı başının üstüne kaldıran halterci, plakalar iki yeşil gezegen. Kırık cam değiştirilmeden önüne çerçeveli kompozit panel monte edilir.</p></div></div>
   <div class="os" style="--k:50%">
     <img decoding="async" src="i/yan_sonra-1280.webp" srcset="i/yan_sonra-640.webp 640w, i/yan_sonra-1280.webp 1280w, i/yan_sonra-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Yan cephe, uygulama sonrası" loading="lazy">
     <img decoding="async" class="ust" src="i/yan_once-1280.webp" srcset="i/yan_once-640.webp 640w, i/yan_once-1280.webp 1280w, i/yan_once-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Yan cephe, mevcut hali" loading="lazy">
@@ -213,7 +250,7 @@ body{-webkit-user-select:none;user-select:none}
 </section>
 
 <section id="tasarimlar" class="gor">
-  <div class="bas"><span class="no">05</span><div><h2>Tasarımlar</h2><p class="alt">Baskıya gidecek düz tasarım dosyaları. Cam ölçüleri netleştiğinde her cephe gerçek ölçüsüne göre büyütülüp panel panel kesilir.</p></div></div>
+  <div class="bas"><span class="no">1.5</span><div><h2>Tasarımlar</h2><p class="alt">Baskıya gidecek düz tasarım dosyaları. Cam ölçüleri netleştiğinde her cephe gerçek ölçüsüne göre büyütülüp panel panel kesilir.</p></div></div>
   <figure class="foto tasarim"><img decoding="async" src="i/tas_on-1280.webp" srcset="i/tas_on-640.webp 640w, i/tas_on-1280.webp 1280w, i/tas_on-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Ön cephe tasarımı" loading="lazy"><figcaption>Ön cephe · startta fırlayan koşucu, ortada kapıya akan hız çizgileri, kutuya sıçrayan sporcu</figcaption></figure>
   <figure class="foto tasarim" style="margin-top:14px"><img decoding="async" src="i/tas_kose-1280.webp" srcset="i/tas_kose-640.webp 640w, i/tas_kose-1280.webp 1280w, i/tas_kose-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Köşe tasarımı" loading="lazy"><figcaption>Köşe · ışık dalgası üzerinde boks, kettlebell, deadlift, spin ve koşu</figcaption></figure>
   <div class="ikili">
@@ -223,7 +260,7 @@ body{-webkit-user-select:none;user-select:none}
 </section>
 
 <section id="plan" class="gor">
-  <div class="bas"><span class="no">06</span><div><h2>Cam planı</h2><p class="alt">Her cam numaralandırıldı. Revizyon ve baskı kesimi bu numaralar üzerinden yürür.</p></div></div>
+  <div class="bas"><span class="no">1.6</span><div><h2>Cam planı</h2><p class="alt">Her cam numaralandırıldı. Revizyon ve baskı kesimi bu numaralar üzerinden yürür.</p></div></div>
   <div class="sekmeler" role="group" aria-label="Cephe seçimi">
     <button type="button" data-p="on" aria-pressed="true">Ön cephe · 21</button>
     <button type="button" data-p="kose" aria-pressed="false">Köşe · 26</button>
@@ -241,7 +278,7 @@ body{-webkit-user-select:none;user-select:none}
 </section>
 
 <section id="uygulama" class="gor">
-  <div class="bas"><span class="no">07</span><div><h2>Uygulama</h2></div></div>
+  <div class="bas"><span class="no">1.7</span><div><h2>Uygulama</h2></div></div>
   <div class="maddeler">
     <div class="madde"><b>Söküm</b>Mevcut yıpranmış ve yırtık folyoların tamamı sökülür, camlar temizlenir.</div>
     <div class="madde"><b>Folyo</b>Tek yönlü görüş (OWV) delikli folyo; dışarıdan görsel, içeriden dış görüş.</div>
@@ -252,26 +289,42 @@ body{-webkit-user-select:none;user-select:none}
 </section>
 
 
-<section id="uye-masasi" class="gor">
-  <div class="bas"><span class="no">08</span><div><h2>Üye masası · müşteri takip uygulaması</h2><p class="alt">Mevcut ve potansiyel üyeler için takip sistemi. Ön iletişimi uygulama yürütür: doğum günü, yenileme, geri kazanım ve kampanya mesajları otomatik gider. Olumlu yanıt veren ya da yanıt vermeyen kritik kişiler personelin arama listesine düşer.</p></div></div>
-  <div class="akis"><span>Otomatik mesaj</span><i>→</i><span>Üyenin yanıtı</span><i>→</i><span>Personel araması</span><i>→</i><span>Yenileme / kayıt</span></div>
-  <div class="app-izgara" style="margin-top:16px">
-    <figure class="foto"><img src="i/app_masaustu-1280.webp" srcset="i/app_masaustu-640.webp 640w, i/app_masaustu-1280.webp 1280w, i/app_masaustu-1920.webp 1920w" sizes="(max-width:860px) 100vw, 970px" alt="Üye masası, masaüstü görünümü" loading="lazy" decoding="async"><figcaption>Masaüstü · bugün aranacaklar, kişi kartı, görüşme sonucu</figcaption></figure>
-    <div class="telefon"><img src="i/app_mobil-750.webp" srcset="i/app_mobil-375.webp 375w, i/app_mobil-750.webp 750w" sizes="250px" alt="Üye masası, mobil görünüm" loading="lazy" decoding="async"></div>
+<header id="platform" class="urun-bas gor">
+  <span class="urun-no">02</span>
+  <div><h2>Üye takip platformu</h2><p>Mevcut ve potansiyel üyeler için takip sistemi. Ön iletişimi platform yürütür, personel yalnızca araması gereken kişiyi arar.</p></div>
+  <div class="urun-ozet"><div><b>6</b><span>otomatik akış</span></div><div><b>6</b><span>hazır kampanya</span></div><div><b>Web + Mac</b><span>telefonda da çalışır</span></div></div>
+</header>
+
+<section id="nasil" class="gor">
+  <div class="bas"><span class="no">2.1</span><div><h2>Nasıl çalışır</h2><p class="alt">Üç adım. Personel listeyle değil, sonuçla uğraşır.</p></div></div>
+  <div class="adimlar">
+    <div class="adim"><i>1</i><b>Platform yazar</b><span>Doğum günü, yenileme hatırlatması, geri kazanım ve kampanya mesajları doğru kişiye, doğru günde gider.</span></div>
+    <div class="adim"><i>2</i><b>Üye yanıtlar</b><span>“Evet, bilgi alabilir miyim?” diyen ya da kritik dönemde yanıt vermeyen kişi arama listesine düşer.</span></div>
+    <div class="adim"><i>3</i><b>Personel arar</b><span>Tek ekranda neden arandığı yazar. Sonuç tek tıkla kaydedilir: yeniledi, düşünecek, tekrar ara.</span></div>
   </div>
-  <div class="ozellikler">
-    <div class="madde"><b>Mevcut üyeler</b>Yenilemesi yaklaşan, süresi dolan, salona gelmeyen ve doğum günü olan üyeler ayrı listelerde.</div>
-    <div class="madde"><b>Potansiyel üyeler</b>Instagram, web formu ya da şube ziyaretinden gelen adaylar: karşılama mesajı, deneme dersi, teklif, kayıt.</div>
-    <div class="madde"><b>Kampanyalar</b>Kara Cuma, yeni yıl, 14 Şubat, yaza hazırlık, okula dönüş ve erken yenileme. Tek tıkla doğru kitleye.</div>
-    <div class="madde"><b>Personel masası</b>Tek ekranda kişi kartı, tek tuşla görüşme sonucu, otomatik geri arama hatırlatması.</div>
-    <div class="madde"><b>Panel</b>Aktif üye, yenileme oranı, aylık satış, aday hunisi ve önümüzdeki 30 günde bitecek üyelikler.</div>
-    <div class="madde"><b>İzin ve kayıt</b>Yalnız ticari ileti izni olan kişilere otomatik mesaj gider. Mevcut liste Excel'den içe aktarılır.</div>
-  </div>
-  <a class="demo-dugme" href="uye-masasi/" target="_blank" rel="noopener">Canlı demoyu aç <span aria-hidden="true">→</span></a>
-  <p class="ipucu">Demo telefonda ve bilgisayarda çalışır. Kişiler hayalidir; arama ve WhatsApp açılmaz, mesaj yanıtları simüle edilir.</p>
 </section>
 
-<footer><span><b>belirgin</b> · MACFit cam giydirme</span><span>Ekim 2026</span></footer>
+<section id="ekranlar" class="gor">
+  <div class="bas"><span class="no">2.2</span><div><h2>Ekranlar</h2><p class="alt">Sade arayüz: her ekranda tek iş. Bilgisayarda ve telefonda aynı veri.</p></div></div>
+  <div class="app-izgara">
+    <figure class="foto"><img src="i/app_masaustu-1280.webp" srcset="i/app_masaustu-640.webp 640w, i/app_masaustu-1280.webp 1280w, i/app_masaustu-1920.webp 1920w" sizes="(max-width:860px) 100vw, 970px" alt="Platform, masaüstü görünümü" loading="lazy" decoding="async"><figcaption>Bugün aranacaklar ve kişi kartı</figcaption></figure>
+    <div class="telefon"><img src="i/app_mobil-750.webp" srcset="i/app_mobil-375.webp 375w, i/app_mobil-750.webp 750w" sizes="250px" alt="Platform, mobil görünüm" loading="lazy" decoding="async"></div>
+  </div>
+  <div class="ozellikler">
+    <div class="madde"><b>Üyeler</b>Yenilemesi yaklaşan, süresi dolan, salona gelmeyen ve doğum günü olan üyeler.</div>
+    <div class="madde"><b>Adaylar</b>Karşılama mesajı, deneme dersi, teklif ve kayıt adımları.</div>
+    <div class="madde"><b>Kampanyalar</b>Kara Cuma, yeni yıl, 14 Şubat, yaz, okula dönüş; tek tıkla doğru kitleye.</div>
+  </div>
+</section>
+
+<section id="demo" class="gor">
+  <div class="demo-kart">
+    <div><span class="no">2.3</span><h2>Canlı demo</h2><p>Platformu şimdi deneyin: bir kişi seçin, sonucu kaydedin, otomasyondan mesaj gönderin. Kişiler hayalidir, arama ve WhatsApp açılmaz.</p></div>
+    <a class="demo-dugme" href="uye-masasi/" target="_blank" rel="noopener">Demoyu aç <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<footer><span><b>belirgin</b> · MACFit Eskişehir teklif dosyası</span><span>Ekim 2026</span></footer>
 </main>
 
 <script>

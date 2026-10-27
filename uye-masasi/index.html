@@ -52,11 +52,6 @@
         <button data-ac="kampModal"><svg class="ik"><use href="#i-bayrak"/></svg>Kampanyalar</button>
         <button data-ac="panelModal"><svg class="ik"><use href="#i-grafik"/></svg>Rapor</button>
       </div>
-      <div class="gun-kutu">
-        <div class="gun-ust"><span>Bugün</span><b id="gunHedef">0 / 30</b></div>
-        <div class="ilerleme"><div id="gunBar"></div></div>
-        <div id="gunSayilar" class="gun-sayilar"></div>
-      </div>
     </div>
   </aside>
 
@@ -70,6 +65,7 @@
       <div class="liste-baslik"><h2 id="listeBaslik"></h2><span id="listeSay" class="liste-say"></span>
         <button class="ekle-dugme" data-ac="ekleModal" title="Kişi ekle" aria-label="Kişi ekle"><svg class="ik"><use href="#i-arti"/></svg></button></div>
       <label class="ara-kutu"><svg class="ik"><use href="#i-ara"/></svg><input id="ara" type="search" placeholder="Ara" autocomplete="off"></label>
+      <div id="segmentler" class="segmentler" hidden></div>
     </div>
     <div id="liste" class="liste"></div>
   </section>
@@ -89,51 +85,53 @@
           <div id="kEtiketler" class="durum-satir"></div>
         </div>
         <div class="eylemler">
-          <button id="eWa" class="duz"><svg class="ik"><use href="#i-wa"/></svg><span>WhatsApp</span></button>
+          <button id="eWa" class="duz ikon-dugme" title="WhatsApp mesajı" aria-label="WhatsApp"><svg class="ik"><use href="#i-wa"/></svg></button>
           <button id="eAra" class="ana-dugme"><svg class="ik"><use href="#i-telefon"/></svg><span>Ara</span></button>
         </div>
       </header>
       <div id="sure" class="sure" hidden><i></i>Görüşme sürüyor · <b id="sureMetin">00:00</b></div>
 
-      <div id="kNeden" class="neden" hidden></div>
-
-      <dl id="kBilgi" class="bilgiler"></dl>
-
       <div class="sekmeler" role="tablist">
         <button data-sekme="gorusme" class="secili" role="tab">Görüşme</button>
+        <button data-sekme="bilgi" role="tab">Bilgiler</button>
         <button data-sekme="mesaj" role="tab">Mesajlar <span id="otoSay"></span></button>
-        <button data-sekme="gecmis" role="tab">Geçmiş <span id="gecmisSay"></span></button>
+        <button data-sekme="gecmis" role="tab">Geçmiş</button>
       </div>
 
       <section class="sekme" data-sekme-ic="gorusme">
+        <div id="kNeden" class="neden" hidden></div>
         <div id="sonuclar" class="sonuclar"></div>
-        <div id="digerSonuclar" class="diger-sonuclar"></div>
+        <button id="digerAc" class="metin-dugme diger-ac">Diğer sonuçlar</button>
+        <div id="digerSonuclar" class="diger-sonuclar" hidden></div>
         <textarea id="not" rows="2" placeholder="Not ekle…"></textarea>
+      </section>
+      <section class="sekme" data-sekme-ic="bilgi" hidden>
+        <dl id="kBilgi" class="bilgiler"></dl>
+        <div class="bilgi-alt">
+          <div><span>Telefon</span><button id="kTel" class="tel" title="Numarayı kopyala"></button><span id="kTelTur" hidden></span></div>
+          <div><span>İleti izni</span><button id="kIzin" class="izin" title="Değiştir"></button></div>
+          <div><span>Kayıt</span><b id="kMeta"></b></div>
+        </div>
         <div id="kNotlar" class="notlar" hidden></div>
+        <button id="eKopya" hidden></button>
       </section>
       <section class="sekme" data-sekme-ic="mesaj" hidden>
         <ol id="kMesajlar" class="mesajlar"></ol>
       </section>
       <section class="sekme" data-sekme-ic="gecmis" hidden>
         <ol id="kGecmis" class="gecmis"></ol>
+        <span id="gecmisSay" hidden></span>
       </section>
-
-      <footer class="kart-alt">
-        <button id="kTel" class="tel" title="Numarayı kopyala"></button><span id="kTelTur"></span>
-        <button id="eKopya" hidden></button>
-        <button id="kIzin" class="izin" title="İleti iznini değiştir"></button>
-        <span id="kMeta" class="meta"></span>
-      </footer>
     </div>
   </main>
 </div>
 
-<nav id="altNav" class="alt-nav" aria-label="Hızlı görünümler">
+<nav id="altNav" class="alt-nav" aria-label="Bölümler">
   <button data-gorunum="bugun"><svg class="ik"><use href="#i-telefon"/></svg>Bugün<span class="say dikkat" hidden></span></button>
-  <button data-gorunum="yenileme"><svg class="ik"><use href="#i-yenile"/></svg>Yenileme<span class="say" hidden></span></button>
-  <button data-gorunum="dogum"><svg class="ik"><use href="#i-pasta"/></svg>Doğum<span class="say" hidden></span></button>
-  <button data-gorunum="aday"><svg class="ik"><use href="#i-yildiz"/></svg>Adaylar<span class="say" hidden></span></button>
-  <button data-ac="menuModal"><svg class="ik"><use href="#i-menu"/></svg>Menü</button>
+  <button data-gorunum="yenileme" data-bolum="uyeler"><svg class="ik"><use href="#i-kisiler"/></svg>Üyeler</button>
+  <button data-gorunum="aday"><svg class="ik"><use href="#i-yildiz"/></svg>Adaylar</button>
+  <button data-ac="otoModal"><svg class="ik"><use href="#i-simsek"/></svg>Otomasyon<span class="oto-say say" hidden></span></button>
+  <button data-ac="menuModal"><svg class="ik"><use href="#i-menu"/></svg>Daha fazla</button>
 </nav>
 
 <!-- Zaman -->
@@ -170,32 +168,33 @@
 
 <!-- Otomasyon -->
 <div id="otoModal" class="modal" hidden>
-  <div class="pencere genis">
+  <div class="pencere orta">
     <div class="pencere-ust"><h2>Otomasyon</h2><button class="kapat" data-kapat="otoModal" aria-label="Kapat">×</button></div>
-    <p class="soluk">Ön iletişimi uygulama yürütür: kurallara uyan kişilere mesaj gider, olumlu yanıt verenler ya da yanıt vermeyen kritik kişiler personelin arama listesine düşer. Yalnızca ileti izni olanlara yazılır.</p>
-    <div class="oto-izgara">
-      <div><h3>Kurallar</h3><div id="kurallar" class="kurallar"></div></div>
-      <div>
-        <div class="kuyruk-ust"><h3>Bugün gönderilecek <span id="kuyrukSay" class="say"></span></h3><button id="tumunuGonder" class="ana-dugme">Tümünü gönder</button></div>
-        <ol id="kuyruk" class="kuyruk"></ol>
-        <p id="otoNot" class="soluk kucuk"></p>
-      </div>
+    <p class="soluk">Mesajlar kurallara göre hazırlanır. Olumlu yanıt verenler “Bugün aranacaklar”a düşer.</p>
+    <div class="sekmeler kucuk-sekme">
+      <button data-oto-sekme="kuyruk" class="secili">Bugün gönderilecek <span id="kuyrukSay"></span></button>
+      <button data-oto-sekme="kural">Kurallar</button>
     </div>
+    <div data-oto-ic="kuyruk">
+      <ol id="kuyruk" class="kuyruk"></ol>
+      <div class="kuyruk-alt"><p id="otoNot" class="soluk kucuk"></p><button id="tumunuGonder" class="ana-dugme">Tümünü gönder</button></div>
+    </div>
+    <div data-oto-ic="kural" hidden><div id="kurallar" class="kurallar"></div></div>
   </div>
 </div>
 
 <!-- Kampanyalar -->
 <div id="kampModal" class="modal" hidden>
-  <div class="pencere genis">
+  <div class="pencere orta">
     <div class="pencere-ust"><h2>Kampanyalar</h2><button class="kapat" data-kapat="kampModal" aria-label="Kapat">×</button></div>
-    <p class="soluk">Yılın belirli dönemlerine özel kampanyalar. “Kitleye gönder” dediğinde mesajlar otomasyon kuyruğuna eklenir; olumlu yanıt verenler arama listesine düşer. Metinler buradan düzenlenebilir.</p>
+    <p class="soluk">Bir kampanyaya tıkla, metni kontrol et, kitleye gönder.</p>
     <div id="kampListe" class="kamp-liste"></div>
   </div>
 </div>
 
 <!-- Panel -->
 <div id="panelModal" class="modal" hidden>
-  <div class="pencere genis">
+  <div class="pencere orta">
     <div class="pencere-ust"><h2>Rapor</h2><button class="kapat" data-kapat="panelModal" aria-label="Kapat">×</button></div>
     <div id="panelIc"></div>
   </div>
@@ -239,18 +238,8 @@
 <!-- Mobil menü -->
 <div id="menuModal" class="modal alt" hidden>
   <div class="pencere">
-    <div class="pencere-ust"><h2>Menü</h2><button class="kapat" data-kapat="menuModal" aria-label="Kapat">×</button></div>
-    <div class="menu-gorunum">
-      <button data-gorunum="bugun"><svg class="ik"><use href="#i-telefon"/></svg>Bugün aranacaklar</button>
-      <button data-gorunum="yenileme"><svg class="ik"><use href="#i-yenile"/></svg>Yenilemesi yaklaşan</button>
-      <button data-gorunum="dolan"><svg class="ik"><use href="#i-geri"/></svg>Süresi dolan</button>
-      <button data-gorunum="dogum"><svg class="ik"><use href="#i-pasta"/></svg>Doğum günleri</button>
-      <button data-gorunum="pasif"><svg class="ik"><use href="#i-uyku"/></svg>Salona gelmeyenler</button>
-      <button data-gorunum="aday"><svg class="ik"><use href="#i-yildiz"/></svg>Potansiyel üyeler</button>
-      <button data-gorunum="tumu"><svg class="ik"><use href="#i-kisiler"/></svg>Tüm kayıtlar</button>
-    </div>
+    <div class="pencere-ust"><h2>Daha fazla</h2><button class="kapat" data-kapat="menuModal" aria-label="Kapat">×</button></div>
     <div class="menu-araclar">
-      <button data-ac="otoModal"><svg class="ik"><use href="#i-simsek"/></svg>Otomasyon</button>
       <button data-ac="kampModal"><svg class="ik"><use href="#i-bayrak"/></svg>Kampanyalar</button>
       <button data-ac="panelModal"><svg class="ik"><use href="#i-grafik"/></svg>Rapor</button>
       <button data-ac="ekleModal"><svg class="ik"><use href="#i-arti"/></svg>Kişi ekle</button>

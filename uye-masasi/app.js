@@ -99,6 +99,13 @@ const GORUNUMLER = [
   { id: 'aday', ad: 'Potansiyel üyeler', kisa: 'Adaylar', ikon: 'i-yildiz', grup: 'Satış' },
   { id: 'tumu', ad: 'Tüm kişiler', kisa: 'Tümü', ikon: 'i-kisiler', grup: 'Satış' }
 ];
+const BOLUMLER = [
+  { id: 'bugun', ad: 'Bugün', baslik: 'Bugün aranacaklar', ikon: 'i-telefon', ilk: 'bugun' },
+  { id: 'uyeler', ad: 'Üyeler', baslik: 'Üyeler', ikon: 'i-kisiler', ilk: 'yenileme' },
+  { id: 'aday', ad: 'Adaylar', baslik: 'Potansiyel üyeler', ikon: 'i-yildiz', ilk: 'aday' }
+];
+const UYE_SEG = [['yenileme', 'Yenileme'], ['dolan', 'Süresi dolan'], ['pasif', 'Gelmeyen'], ['dogum', 'Doğum günü'], ['uyeTum', 'Tümü']];
+const bolumu = (g) => UYE_SEG.some(x => x[0] === g) ? 'uyeler' : g === 'tumu' ? 'uyeler' : g;
 const ANA_SONUC = { uye: ['yeniledi', 'dusunecek', 'tekrar_ara', 'ulasilamadi'], aday: ['kayit', 'deneme', 'teklif', 'tekrar_ara', 'ulasilamadi'] };
 
 const ASAMA = { yeni: 'Yeni aday', deneme: 'Deneme dersi', teklif: 'Teklif verildi', kayit: 'Üye oldu', kayip: 'Kaybedildi' };
@@ -174,6 +181,7 @@ function gorunumListesi(id) {
     case 'dogum': return K.filter(k => { const g = dogumKalan(k); return g != null && g <= 7; }).sort((a, b) => dogumKalan(a) - dogumKalan(b));
     case 'pasif': return K.filter(k => k.tur === 'uye' && kalan(k) >= 0 && pasifGun(k) >= 14).sort((a, b) => pasifGun(b) - pasifGun(a));
     case 'aday': { const s = { yeni: 0, deneme: 1, teklif: 2 }; return K.filter(k => k.tur === 'aday' && !['kayip', 'kayit'].includes(k.aday?.asama)).sort((a, b) => (s[a.aday.asama] ?? 9) - (s[b.aday.asama] ?? 9) || new Date(b.kayit) - new Date(a.kayit)); }
+    case 'uyeTum': return K.filter(k => k.tur === 'uye').sort((a, b) => a.ad.localeCompare(b.ad, 'tr'));
     default: return [...K].sort((a, b) => a.ad.localeCompare(b.ad, 'tr'));
   }
 }
@@ -210,27 +218,15 @@ function ciz() { cizKenar(); cizListe(); cizKart(); cizSayac(); }
 
 function cizKenar() {
   $('#sube').textContent = durum.ayarlar.sube;
-  let grup = null;
-  $('#gorunumler').innerHTML = GORUNUMLER.map(g => {
-    const n = gorunumListesi(g.id).length;
-    const ust = g.grup && g.grup !== grup ? `<div class="grup">${g.grup}</div>` : '';
-    grup = g.grup || grup;
-    return `${ust}<button class="gorunum ${g.id === durum.gorunum ? 'secili' : ''} ${g.id === 'bugun' ? 'birincil' : ''}" data-gorunum="${g.id}">${svg(g.ikon)}<span>${g.ad}</span><span class="say ${g.id === 'bugun' && n ? 'dikkat' : ''}">${n || ''}</span></button>`;
+  const aktif = bolumu(durum.gorunum);
+  $('#gorunumler').innerHTML = BOLUMLER.map(b => {
+    const n = b.id === 'bugun' ? gorunumListesi('bugun').length : b.id === 'aday' ? gorunumListesi('aday').length : 0;
+    return `<button class="gorunum ${b.id === aktif ? 'secili' : ''}" data-gorunum="${b.ilk}">${svg(b.ikon)}<span>${b.ad}</span><span class="say ${b.id === 'bugun' && n ? 'dikkat' : ''}">${n || ''}</span></button>`;
   }).join('');
   $$('#altNav [data-gorunum]').forEach(b => {
-    b.classList.toggle('secili', b.dataset.gorunum === durum.gorunum);
-    const n = gorunumListesi(b.dataset.gorunum).length;
-    const s = $('.say', b); if (s) { s.textContent = n; s.hidden = !n || b.dataset.gorunum !== 'bugun'; }
+    b.classList.toggle('secili', bolumu(b.dataset.gorunum) === aktif);
+    const s = $('.say', b); if (s) { const n = gorunumListesi('bugun').length; s.textContent = n; s.hidden = !n; }
   });
-  const bugunku = kisiler().flatMap(k => k.gecmis.filter(g => bugunMu(g.t)));
-  const aranan = bugunku.filter(g => ARAMA_SONUCLARI.has(g.d)).length;
-  const ulasilan = bugunku.filter(g => ULASILAN.has(g.d)).length;
-  const satis = bugunku.filter(g => ['yeniledi', 'kayit'].includes(g.d));
-  const ciro = satis.reduce((t, g) => t + (Number(g.tutar) || 0), 0);
-  const hedef = durum.ayarlar.gunlukHedef || 30;
-  $('#gunHedef').textContent = `${aranan}/${hedef} arama`;
-  $('#gunBar').style.width = Math.min(100, aranan / hedef * 100) + '%';
-  $('#gunSayilar').textContent = `${ulasilan} ulaşıldı · ${satis.length} satış · ${TL(ciro)}`;
   const kuyruk = otoKuyruk().length;
   $$('.oto-say').forEach(x => { x.textContent = kuyruk; x.hidden = !kuyruk; });
 }
@@ -243,15 +239,18 @@ function cizListe() {
     liste = kisiler().filter(k => k.ad.toLocaleLowerCase('tr').includes(q) || (qn.length >= 3 && telNorm(k.telefon).includes(qn.replace(/^0/, ''))));
     baslik = 'Arama sonuçları';
   } else {
-    liste = filtrele(gorunumListesi(durum.gorunum));
-    baslik = GORUNUMLER.find(g => g.id === durum.gorunum).ad;
+    liste = gorunumListesi(durum.gorunum);
+    baslik = BOLUMLER.find(b => b.id === bolumu(durum.gorunum)).baslik;
   }
   durum.gorunenler = liste;
+  const seg = !q && bolumu(durum.gorunum) === 'uyeler';
+  $('#segmentler').hidden = !seg;
+  if (seg) $('#segmentler').innerHTML = UYE_SEG.map(([id, ad]) => `<button class="${id === durum.gorunum ? 'secili' : ''}" data-gorunum="${id}">${ad}<span>${gorunumListesi(id).length}</span></button>`).join('');
   $('#listeBaslik').textContent = baslik;
   $('#listeSay').textContent = liste.length;
   $$('#filtre button').forEach(b => b.classList.toggle('secili', b.dataset.f === durum.filtre));
   if (!liste.find(k => k.id === durum.seciliId) && !(durum.ekran === 'detay' && secili())) durum.seciliId = liste[0]?.id || null;
-  const g = q ? 'tumu' : durum.gorunum;
+  const g = q ? 'tumu' : durum.gorunum === 'uyeTum' ? 'tumu' : durum.gorunum;
   $('#liste').innerHTML = liste.map(k => {
     const [r, renk] = rozet(k, g);
     return `<button class="satir ${k.id === durum.seciliId ? 'secili' : ''}" data-id="${k.id}">
@@ -302,7 +301,7 @@ function cizKart() {
     n.hidden = false;
     const gelen = araZamani(k);
     n.className = 'neden ' + (gelen ? 'simdi' : '');
-    n.innerHTML = `<b>${gelen ? 'Neden aranıyor' : 'Planlı arama · ' + saatYaz(k.ara.zaman)}</b><span>${esc(k.ara.neden)}</span>`;
+    n.innerHTML = `<span>${esc(k.ara.neden)}</span>${gelen ? '' : `<small>Planlı: ${saatYaz(k.ara.zaman)}</small>`}`;
   } else n.hidden = true;
 
   const b = [];
@@ -324,7 +323,8 @@ function cizKart() {
   const tum = SONUC[k.tur];
   $('#sonuclar').innerHTML = tum.filter(s => ana.includes(s.d)).sort((x, y) => ana.indexOf(x.d) - ana.indexOf(y.d))
     .map(s => `<button class="sonuc ${s.iyi ? 'iyi' : ''}" data-sonuc="${s.d}"><b>${s.ad}</b><small>${s.alt}</small><kbd>${s.tus}</kbd></button>`).join('');
-  $('#digerSonuclar').innerHTML = '<span>Diğer:</span>' + tum.filter(s => !ana.includes(s.d)).map(s => `<button data-sonuc="${s.d}">${s.ad}</button>`).join('');
+  $('#digerSonuclar').innerHTML = tum.filter(s => !ana.includes(s.d)).map(s => `<button data-sonuc="${s.d}">${s.ad}</button>`).join('');
+  if (durum.kartIdDiger !== k.id) { durum.kartIdDiger = k.id; $('#digerSonuclar').hidden = true; $('#digerAc').textContent = 'Diğer sonuçlar'; }
   $('#kNotlar').textContent = k.notlar || '';
   $('#kNotlar').hidden = !k.notlar;
 
@@ -346,9 +346,9 @@ function cizKart() {
   // alt bilgi
   $('#kTel').textContent = k.telefon ? telYaz(k.telefon) : 'Telefon yok';
   $('#kTelTur').textContent = '';
-  $('#kIzin').textContent = k.izin ? 'İleti izni var' : 'İleti izni yok';
+  $('#kIzin').textContent = k.izin ? 'Var · kaldır' : 'Yok · ver';
   $('#kIzin').className = 'izin ' + (k.izin ? 'var' : 'yok');
-  $('#kMeta').textContent = [k.kaynak, k.kayit ? 'kayıt ' + tarihYaz(k.kayit) : ''].filter(Boolean).join(' · ');
+  $('#kMeta').textContent = [k.kaynak, k.kayit ? tarihYaz(k.kayit) : ''].filter(Boolean).join(' · ');
 }
 
 function cizSayac() {
@@ -634,9 +634,10 @@ function cizOto() {
   $('#kuyruk').innerHTML = q.map((x, i) => `<li><div><b>${esc(x.k.ad)}</b><small>${esc(x.kural.ad)}</small><p>${esc(x.metin)}</p></div><button class="duz" data-gonder="${i}">${WEB ? 'Gönder' : 'WhatsApp\'ta aç'}</button></li>`).join('')
     || '<li class="soluk">Bugün gönderilecek mesaj kalmadı.</li>';
   $('#tumunuGonder').hidden = !WEB || !q.length;
+  $('#kuyrukSay').textContent = q.length || '';
   $('#otoNot').textContent = WEB
-    ? 'Demo: mesajlar simüle edilir; bir kısmına birkaç saniye içinde yanıt gelir. Olumlu yanıtlar “Bugün aranacaklar”a düşer.'
-    : 'Toplu otomatik gönderim için WhatsApp Business API bağlantısı gerekir. Bağlantı kurulana kadar her mesaj tek tıkla WhatsApp\'ta hazır açılır.';
+    ? 'Demo: bir kısmına birkaç saniye içinde yanıt gelir.'
+    : 'Toplu gönderim WhatsApp Business API ile çalışır; şimdilik her mesaj tek tıkla WhatsApp\'ta açılır.';
 }
 
 // ---------------- kampanyalar ----------------
@@ -674,19 +675,20 @@ function kampIstat(c) {
 function cizKamp() {
   const yil = new Date().getFullYear();
   const l = durum.ayarlar.kampanyalar.map(c => ({ c, d: kampDurum(c) })).sort((a, b) => a.d[2] - b.d[2]);
-  $('#kampListe').innerHTML = l.map(({ c, d }) => {
+  $('#kampListe').innerHTML = l.map(({ c, d }, i) => {
     const kitle = kampKitle(c), izinli = kitle.filter(k => k.izin && cepMi(k.telefon));
     const dongu = `kamp-${c.id}-${yil}`;
     const bekleyen = durum.db.kampanyaKuyruk.filter(x => x.kampId === c.id).length;
     const ist = kampIstat(c);
-    return `<div class="kamp">
-      <div class="kamp-ust"><div><b>${esc(c.ad)}</b><small>${kampDonem(c)} · ${KITLE[c.kitle].ad}</small></div><span class="rozet r-${d[1]}">${d[0]}</span></div>
-      <textarea data-kamp-metin="${c.id}" rows="3">${esc(c.metin)}</textarea>
-      <div class="kamp-alt">
-        <span class="kamp-sayi"><b>${izinli.length}</b> kişiye gidebilir${kitle.length > izinli.length ? ` <small>(${kitle.length - izinli.length} kişi izinsiz)</small>` : ''}</span>
-        <span class="kamp-sayi">Gönderilen <b>${ist.gonderilen}</b> · Olumlu <b>${ist.olumlu}</b> · Dönüşüm <b>${ist.donusum}</b></span>
-        <button class="ana-dugme" data-kamp-gonder="${c.id}" ${izinli.every(k => k.mesajlar.some(m => m.dongu === dongu)) || bekleyen ? 'disabled' : ''}>${bekleyen ? `${bekleyen} mesaj kuyrukta` : 'Kitleye gönder'}</button>
-      </div></div>`;
+    const gitti = izinli.length && izinli.every(k => k.mesajlar.some(m => m.dongu === dongu));
+    return `<details class="kamp" ${i === 0 ? 'open' : ''}>
+      <summary><span class="kamp-ad"><b>${esc(c.ad)}</b><small>${kampDonem(c)}</small></span><span class="rozet r-${d[1]}">${d[0]}</span></summary>
+      <div class="kamp-ic">
+        <div class="kamp-satir"><span>Kitle</span><b>${KITLE[c.kitle].ad} · ${izinli.length} kişi</b></div>
+        ${ist.gonderilen ? `<div class="kamp-satir"><span>Sonuç</span><b>${ist.gonderilen} gönderildi · ${ist.olumlu} olumlu · ${ist.donusum} satış</b></div>` : ''}
+        <textarea data-kamp-metin="${c.id}" rows="3">${esc(c.metin)}</textarea>
+        <button class="ana-dugme" data-kamp-gonder="${c.id}" ${gitti || bekleyen ? 'disabled' : ''}>${bekleyen ? 'Kuyrukta' : gitti ? 'Gönderildi' : 'Kitleye gönder'}</button>
+      </div></details>`;
   }).join('');
 }
 function kampGonder(id) {
@@ -727,6 +729,7 @@ function cizPanel() {
   const en = huni[0][1] || 1;
   const yanitOran = oto ? Math.round(olumlu / oto * 100) : 0;
   $('#panelIc').innerHTML = `
+    <div class="rapor-gun">${gunOzet()}</div>
     <div class="pkartlar">
       ${kart('Aktif üye', aktif.length, `${yaklasan.length} kişinin süresi 30 gün içinde bitiyor`)}
       ${kart('Yenileme oranı', '%' + oran, 'Son 30 gün')}
@@ -740,6 +743,14 @@ function cizPanel() {
         <div class="takvim">${Array.from({ length: 30 }, (_, i) => { const n = aktif.filter(k => kalan(k) === i).length; return `<span title="${gunMetni(i)}: ${n} üyelik"><i style="height:${n ? Math.min(100, 22 + n * 26) : 0}%"></i></span>`; }).join('')}</div>
         <div class="takvim-alt"><span>Bugün</span><span>30 gün sonra</span></div></div>
     </div>`;
+}
+
+function gunOzet() {
+  const bugunku = kisiler().flatMap(k => k.gecmis.filter(g => bugunMu(g.t)));
+  const aranan = bugunku.filter(g => ARAMA_SONUCLARI.has(g.d)).length;
+  const satis = bugunku.filter(g => ['yeniledi', 'kayit'].includes(g.d));
+  const hedef = durum.ayarlar.gunlukHedef || 30;
+  return `<span>Bugün <b>${aranan}/${hedef}</b> arama · <b>${satis.length}</b> satış · <b>${TL(satis.reduce((t, g) => t + (Number(g.tutar) || 0), 0))}</b></span><div class="ilerleme"><div style="width:${Math.min(100, aranan / hedef * 100)}%"></div></div>`;
 }
 
 // ---------------- kişi ekleme / içe aktarma ----------------
@@ -780,7 +791,7 @@ function ekleKaydet() {
   const k = yeniKisi({ ad, telefon: tel ? telYaz(tel) : '', tur, dogum: $('#yDogum').value, izin: $('#yIzin').checked, paket: $('#yPaket').value, bitis: $('#yBitis').value, ilgi: $('#yIlgi').value.trim(), kaynak: $('#yKaynak').value, notlar: $('#yNot').value.trim() });
   durum.db.kisiler.push(k);
   kaydetDb(); kapat('ekleModal');
-  durum.gorunum = 'tumu'; durum.filtre = 'hepsi'; durum.arama = ''; $('#ara').value = '';
+  durum.gorunum = tur === 'uye' ? 'uyeTum' : 'aday'; durum.filtre = 'hepsi'; durum.arama = ''; $('#ara').value = '';
   ciz(); sec(k.id);
   bildir(`${ad} eklendi${tur === 'aday' && k.izin ? ' · karşılama mesajı otomasyon kuyruğunda' : ''}`);
 }
@@ -818,9 +829,10 @@ const modalAcik = () => MODALLAR.some(m => !$('#' + m).hidden);
 
 // ---------------- olaylar ----------------
 document.addEventListener('click', (e) => {
-  const t = e.target.closest('[data-sekme],[data-gorunum],[data-id],[data-sonuc],[data-kapat],[data-z],[data-paket],[data-yanit],[data-gonder],[data-kamp-gonder],[data-f],[data-tur]');
+  const t = e.target.closest('[data-oto-sekme],[data-sekme],[data-gorunum],[data-id],[data-sonuc],[data-kapat],[data-z],[data-paket],[data-yanit],[data-gonder],[data-kamp-gonder],[data-f],[data-tur]');
   if (!t) { if (e.target.classList.contains('modal')) { const m = e.target.id; kapat(m); durum.bekleyen = null; } return; }
   if (t.dataset.sekme) sekmeSec(t.dataset.sekme);
+  else if (t.dataset.otoSekme) otoSekme(t.dataset.otoSekme);
   else if (t.dataset.gorunum) gorunumSec(t.dataset.gorunum);
   else if (t.dataset.id) sec(t.dataset.id);
   else if (t.dataset.sonuc) sonucSec(t.dataset.sonuc);
@@ -858,11 +870,16 @@ $('#eWa').onclick = () => waAc(null);
 $('#eKopya').onclick = $('#kTel').onclick = () => { const k = secili(); if (k?.telefon) { window.masa.kopyala(telYaz(k.telefon)); bildir('Numara kopyalandı'); } };
 $('#kIzin').onclick = () => { const k = secili(); if (!k) return; k.izin = !k.izin; k.gecmis.push({ t: new Date().toISOString(), d: 'izin', not: k.izin ? 'İleti izni verildi' : 'İleti izni geri alındı' }); kaydetDb(); ciz(); };
 $('#geri').onclick = listeyeDon;
+$('#digerAc').onclick = () => { const d = $('#digerSonuclar'); d.hidden = !d.hidden; $('#digerAc').textContent = d.hidden ? 'Diğer sonuçlar' : 'Gizle'; };
+function otoSekme(s) {
+  $$('[data-oto-sekme]').forEach(b => b.classList.toggle('secili', b.dataset.otoSekme === s));
+  $$('[data-oto-ic]').forEach(x => { x.hidden = x.dataset.otoIc !== s; });
+}
 $('#ara').addEventListener('input', (e) => { durum.arama = e.target.value; cizListe(); if (!mobil()) cizKart(); });
 $$('[data-ac]').forEach(b => b.addEventListener('click', () => {
   const m = b.dataset.ac;
   MODALLAR.forEach(x => { if (x !== m) $('#' + x).hidden = true; });
-  if (m === 'otoModal') cizOto();
+  if (m === 'otoModal') { otoSekme('kuyruk'); cizOto(); }
   if (m === 'kampModal') cizKamp();
   if (m === 'panelModal') cizPanel();
   if (m === 'ekleModal') return ekleAc();
@@ -906,7 +923,7 @@ document.addEventListener('keydown', (e) => {
     case 'n': e.preventDefault(); $('#not').focus(); break;
     case 'z': e.preventDefault(); geriAl(); break;
     case '/': e.preventDefault(); $('#ara').focus(); break;
-    case 'o': e.preventDefault(); cizOto(); ac('otoModal'); break;
+    case 'o': e.preventDefault(); otoSekme('kuyruk'); cizOto(); ac('otoModal'); break;
     case 'p': e.preventDefault(); cizPanel(); ac('panelModal'); break;
     case '?': e.preventDefault(); ac('yardimModal'); break;
   }
