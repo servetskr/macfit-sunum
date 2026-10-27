@@ -305,7 +305,8 @@ function cizKart() {
   if (dogumKalan(k) === 0) metin += ' · bugün doğum günü';
   $('#kEtiketler').innerHTML = `<i class="nokta n-${nokta}"></i>${metin}`;
 
-  $('#eAra').disabled = !k.telefon;
+  $('#eAra').disabled = !k.telefon && !durum.cagriBas;
+  cizSayac();
 
   const n = $('#kNeden');
   if (k.ara) {
@@ -363,7 +364,10 @@ function cizKart() {
 }
 
 function cizSayac() {
-  const s = $('#sure');
+  const s = $('#sure'), b = $('#eAra');
+  b.classList.toggle('bitir', !!durum.cagriBas);
+  $('span', b).textContent = durum.cagriBas ? 'Bitir' : 'Ara';
+  b.title = durum.cagriBas ? 'Aramayı sonlandır' : 'Ara';
   if (!durum.cagriBas) { s.hidden = true; return; }
   s.hidden = false;
   const sn = Math.floor((Date.now() - durum.cagriBas) / 1000);
@@ -394,12 +398,22 @@ function aramaBaslat() {
   if (WEB) bildir('Demo: arama başlatılmaz, süre sayacı çalışıyor');
   else if (mobil()) window.masa.urlAc('tel:0' + telNorm(k.telefon));
   else { window.masa.kopyala(telYaz(k.telefon)); bildir(`${telYaz(k.telefon)} kopyalandı · telefondan ara`); }
-  durum.cagriBas = Date.now();
+  durum.cagriBas = Date.now(); durum.cagriId = k.id; durum.sonSure = null;
   clearInterval(durum.sayacTimer);
   durum.sayacTimer = setInterval(cizSayac, 1000);
   cizSayac();
 }
 function aramaBitir() { durum.cagriBas = null; clearInterval(durum.sayacTimer); cizSayac(); }
+// Personel görüşmeyi kapatır; süre saklanır, sonuç seçilince nota eklenir.
+function aramaSonlandir() {
+  if (!durum.cagriBas) return;
+  const sn = Math.round((Date.now() - durum.cagriBas) / 1000);
+  durum.sonSure = { id: durum.cagriId, sn };
+  aramaBitir();
+  if (durum.seciliId === durum.cagriId) sekmeSec('gorusme');
+  bildir(`Görüşme bitti · ${Math.floor(sn / 60)} dk ${sn % 60} sn · şimdi sonucu seç`);
+}
+const aramaDugmesi = () => (durum.cagriBas ? aramaSonlandir() : aramaBaslat());
 
 function sonucSec(d) {
   const k = secili(); if (!k) return;
@@ -423,7 +437,8 @@ function uygula({ d, not, zaman, paket, tutar, wa }) {
   const k = secili(); if (!k) return;
   const once = kopya(k);
   const t = new Date().toISOString();
-  const sure = durum.cagriBas ? Math.round((Date.now() - durum.cagriBas) / 1000) : null;
+  const sure = durum.cagriBas && durum.cagriId === k.id ? Math.round((Date.now() - durum.cagriBas) / 1000) : durum.sonSure?.id === k.id ? durum.sonSure.sn : null;
+  durum.sonSure = null;
   const sonraki = (saat, gun = 1) => { const x = new Date(); x.setDate(x.getDate() + gun); x.setHours(saat, 0, 0, 0); return x.toISOString(); };
   let ekNot = '';
   switch (d) {
@@ -876,7 +891,8 @@ $('#paketTamam').onclick = () => {
   kapat('paketModal'); durum.bekleyen = null; uygula({ ...b, tutar });
 };
 $('#waGonder').onclick = waGonder;
-$('#eAra').onclick = aramaBaslat;
+$('#eAra').onclick = aramaDugmesi;
+$('#sureBitir').onclick = aramaSonlandir;
 $('#eWa').onclick = () => waAc(null);
 $('#eKopya').onclick = $('#kTel').onclick = () => { const k = secili(); if (k?.telefon) { window.masa.kopyala(telYaz(k.telefon)); bildir('Numara kopyalandı'); } };
 $('#kIzin').onclick = () => { const k = secili(); if (!k) return; k.izin = !k.izin; k.gecmis.push({ t: new Date().toISOString(), d: 'izin', not: k.izin ? 'İleti izni verildi' : 'İleti izni geri alındı' }); kaydetDb(); ciz(); };
@@ -926,7 +942,7 @@ document.addEventListener('keydown', (e) => {
   const s = k && SONUC[k.tur].find(x => x.tus === e.key);
   if (s) { e.preventDefault(); sonucSec(s.d); return; }
   switch (e.key.toLowerCase()) {
-    case 'enter': e.preventDefault(); aramaBaslat(); break;
+    case 'enter': e.preventDefault(); aramaDugmesi(); break;
     case 'arrowdown': case 'j': e.preventDefault(); kaydir(1); break;
     case 'arrowup': case 'k': e.preventDefault(); kaydir(-1); break;
     case 'w': e.preventDefault(); waAc(null); break;

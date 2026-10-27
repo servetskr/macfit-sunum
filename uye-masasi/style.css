@@ -462,3 +462,10 @@ body:not(.web) .liste-ust, body:not(.web) .detay { padding-top: 36px; }
 
 .sekmeler { scrollbar-width: none; }
 .sekmeler::-webkit-scrollbar { display: none; }
+
+/* arama sonlandırma */
+#eAra.bitir { background: #dc2626; color: #fff; }
+#eAra.bitir:hover:not(:disabled) { background: #b91c1c; }
+#eAra.bitir .ik { transform: rotate(135deg); }
+.sure-bitir { margin-left: 6px; color: #dc2626; font-weight: 600; font-size: 13px; }
+.sure-bitir:hover { text-decoration: underline; }
