@@ -56,7 +56,8 @@ const VARSAYILAN_AYARLAR = {
     yenileme: 'Merhaba {ad}, MACFit {sube}\'den yazıyorum. Üyeliğini yenilemekle ilgili konuştuklarımızı özetliyorum:'
   },
   kampanyalar: [
-    { id: 'karacuma', ad: 'Kara Cuma', bas: '11-20', bit: '11-30', kitle: 'dolan', metin: 'Merhaba {ad}, MACFit {sube}\'de Kara Cuma başladı: yıllık üyelikte %30 indirim, 30 Kasım\'a kadar. Seni yeniden aramızda görmek isteriz. Detay için bu mesaja yanıt ver.' },
+    { id: 'efsanecuma', ad: 'Efsane Cuma', bas: '11-20', bit: '11-30', kitle: 'dolan', metin: 'Merhaba {ad}, MACFit {sube}\'de Efsane Cuma başladı: yıllık üyelikte %30 indirim, 30 Kasım\'a kadar. Seni yeniden aramızda görmek isteriz. Detay için bu mesaja yanıt ver.' },
+    { id: 'supercuma', ad: 'Süper Cuma', bas: '11-24', bit: '11-30', kitle: 'aday', metin: 'Merhaba {ad}, MACFit {sube}\'de Süper Cuma fırsatı: bu hafta kayıt olana ilk ay %50 indirim ve ücretsiz kişisel antrenör seansı. Yer ayırmak için bu mesaja yanıt ver.' },
     { id: 'yilbasi', ad: 'Yeni yıl, yeni sen', bas: '12-15', bit: '01-07', kitle: 'aday', metin: 'Merhaba {ad}, yeni yıl hedeflerine MACFit {sube} ile başla! Ocak sonuna kadar kayıtlarda ilk ay hediye. Ücretsiz deneme dersi için yanıt ver.' },
     { id: 'sevgili', ad: 'Partnerinle gel', bas: '02-01', bit: '02-14', kitle: 'uye', metin: 'Merhaba {ad}, 14 Şubat\'a özel: partnerini MACFit {sube}\'ye getir, ona 1 ay %50 indirim, sana 2 hafta uzatma. Detay için yanıt ver.' },
     { id: 'yaz', ad: 'Yaza hazırlık', bas: '04-01', bit: '05-31', kitle: 'tumu', metin: 'Merhaba {ad}, yaza 8 hafta kaldı! MACFit {sube}\'de 8 haftalık dönüşüm programı başlıyor: ölçüm, beslenme planı ve grup dersleri bir arada. Yer ayırmak için yanıt ver.' },
@@ -159,6 +160,11 @@ async function baslat() {
   durum.ayarlar.sablonlar = { ...VARSAYILAN_AYARLAR.sablonlar, ...(durum.ayarlar.sablonlar || {}) };
   durum.ayarlar.otomasyon = { ...VARSAYILAN_AYARLAR.otomasyon, ...(durum.ayarlar.otomasyon || {}) };
   if (!Array.isArray(durum.db.kampanyaKuyruk)) durum.db.kampanyaKuyruk = [];
+  if (!Array.isArray(durum.ayarlar.kampanyalar) || durum.ayarlar.kampanyalar.some(c => c.id === 'karacuma')) {
+    const eski = (durum.ayarlar.kampanyalar || []).filter(c => c.id !== 'karacuma');
+    durum.ayarlar.kampanyalar = [...VARSAYILAN_AYARLAR.kampanyalar.filter(c => !eski.some(x => x.id === c.id)).map(kopya), ...eski];
+    durum.db.kampanyaKuyruk = durum.db.kampanyaKuyruk.filter(x => x.kampId !== 'karacuma');
+  }
   durum.db.kisiler.forEach(k => {
     k.mesajlar = k.mesajlar || []; k.gecmis = k.gecmis || [];
     for (const m of k.mesajlar) if (m.metin === '(Şablon mesaj gönderildi)') m.metin = doldur(durum.ayarlar.sablonlar[m.kural], k);
@@ -526,7 +532,7 @@ function paketOzet() {
 function doldur(metin, k) {
   const x = kalan(k);
   return String(metin || '')
-    .replaceAll('{ad}', k.ad.split(' ')[0])
+    .replaceAll('{ad}', k.ad)
     .replaceAll('{sube}', durum.ayarlar.sube)
     .replaceAll('{bitis}', k.uyelik ? tarihAl(k.uyelik.bitis).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' }) : '')
     .replaceAll('{gun}', x != null ? Math.max(0, x) : '')
