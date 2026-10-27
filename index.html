@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>MACFit Cam Giydirme</title>
+<meta name="description" content="MACFit Eskişehir: üç cephe için cam giydirme tasarımı, mevcut ve uygulama sonrası görünüm.">
+<meta property="og:title" content="MACFit Cam Giydirme">
+<meta property="og:description" content="Üç cephe · mevcut ve uygulama sonrası görünüm">
+<meta property="og:image" content="i/on_sonra-1280.webp">
+<link rel="preload" as="font" type="font/woff2" href="f/manrope-latin.woff2" crossorigin>
+<link rel="preload" as="image" href="i/on_sonra-1280.webp" imagesrcset="i/on_sonra-640.webp 640w, i/on_sonra-1280.webp 1280w, i/on_sonra-1920.webp 1920w" imagesizes="100vw">
+<style>
+@font-face{font-family:'Manrope';font-style:normal;font-weight:400 800;font-display:swap;src:url(f/manrope-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:400 800;font-display:swap;src:url(f/manrope-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+:root{
+  --zemin:#0f0f0e; --yuzey:#1a1a18; --yuzey2:#222220; --metin:#efefea; --ikincil:#9d9d95; --cizgi:#2e2e2a;
+  --vurgu:#9BE31C; --vurgu-metin:#121210;
+}
+:root[data-theme="light"]{ --zemin:#f4f4f1; --yuzey:#ffffff; --yuzey2:#ecece7; --metin:#1d1d1b; --ikincil:#6b6b66; --cizgi:#dcdcd6; --vurgu:#7fbf12; }
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--zemin);color:var(--metin);font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5}
+img{display:block;width:100%;height:auto}
+.kap{max-width:1280px;margin:0 auto;padding:0 24px}
+@media (max-width:640px){.kap{padding:0 16px}}
+
+/* kapak */
+.kapak{position:relative;min-height:92vh;display:flex;align-items:flex-end;color:#fff;overflow:hidden;background:#0f0f0e}
+.kapak img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+@keyframes yakin{from{transform:scale(1.06)}to{transform:scale(1)}}
+.kapak::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,9,.35) 0%,rgba(10,10,9,0) 35%,rgba(10,10,9,.88) 100%)}
+.kapak .ic{position:relative;z-index:1;padding:0 24px 64px;max-width:1280px;margin:0 auto;width:100%}
+.ust-bar{position:absolute;top:22px;left:24px;right:24px;z-index:2;display:flex;justify-content:space-between;align-items:center}
+.marka{font-weight:800;letter-spacing:-.02em;font-size:20px;color:#fff}
+.marka b{color:var(--vurgu)}
+.tema{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;font:600 12px Manrope,sans-serif;padding:7px 12px;border-radius:999px;cursor:pointer}
+.etiket{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--vurgu-metin);background:var(--vurgu);padding:6px 10px;border-radius:6px;margin-bottom:18px}
+.kapak h1{font-size:clamp(40px,7vw,92px);font-weight:800;letter-spacing:-.04em;line-height:.98}
+.kapak h1 span{color:var(--vurgu)}
+.kapak p{margin-top:16px;font-size:clamp(15px,1.6vw,19px);color:#dcdcd5;max-width:620px}
+.ozet{display:flex;gap:36px;margin-top:30px;flex-wrap:wrap}
+.ozet div b{display:block;font-size:clamp(24px,3vw,34px);font-weight:800;letter-spacing:-.03em;color:#fff;font-variant-numeric:tabular-nums}
+.ozet div span{font-size:13px;color:#b9b9b1}
+
+/* gezinme */
+nav.gez{position:sticky;top:0;z-index:5;background:var(--zemin);border-bottom:1px solid var(--cizgi)}
+nav.gez .kap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
+nav.gez a{flex:none;font-size:13px;font-weight:700;color:var(--ikincil);text-decoration:none;padding:7px 12px;border-radius:999px}
+nav.gez a:hover,nav.gez a.aktif{color:var(--vurgu-metin);background:var(--vurgu)}
+
+/* bolumler */
+section{padding:96px 0 0;scroll-margin-top:60px}
+.bas{display:flex;gap:18px;align-items:baseline;margin-bottom:24px;flex-wrap:wrap}
+.no{font-weight:800;color:var(--vurgu);font-size:15px;font-variant-numeric:tabular-nums;min-width:28px}
+h2{font-size:clamp(26px,3.4vw,42px);font-weight:800;letter-spacing:-.03em;line-height:1.06}
+h3{font-size:18px;font-weight:800;letter-spacing:-.01em;margin:34px 0 12px}
+.alt{color:var(--ikincil);font-size:15.5px;margin-top:8px;max-width:760px}
+
+/* konsept */
+.ilkeler{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:860px){.ilkeler{grid-template-columns:1fr}}
+.ilke{background:var(--yuzey);border-radius:16px;padding:22px;border:1px solid var(--cizgi)}
+.ilke i{display:block;font-style:normal;font-weight:800;color:var(--vurgu);font-size:13px;letter-spacing:.08em;margin-bottom:10px}
+.ilke b{display:block;font-size:18px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
+.ilke span{font-size:14.5px;color:var(--ikincil)}
+.renkler{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+@media (max-width:640px){.renkler{grid-template-columns:1fr}}
+.renk{background:var(--yuzey);border-radius:14px;padding:14px;display:flex;gap:14px;align-items:center;border:1px solid var(--cizgi)}
+.renk i{width:52px;height:52px;border-radius:10px;flex:none;border:1px solid rgba(255,255,255,.12)}
+.renk b{display:block;font-weight:800}
+.renk span{font-size:13px;color:var(--ikincil)}
+
+/* once-sonra */
+.os{position:relative;border-radius:16px;overflow:hidden;background:#111;aspect-ratio:20/9;user-select:none;-webkit-user-select:none}
+.os img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.os .ust{clip-path:inset(0 calc(100% - var(--k,50%)) 0 0)}
+.os .ayrac{position:absolute;top:0;bottom:0;left:var(--k,50%);width:2px;background:var(--vurgu);transform:translateX(-1px);pointer-events:none}
+.os .ayrac::after{content:"";position:absolute;top:50%;left:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:var(--vurgu);box-shadow:0 4px 18px rgba(0,0,0,.4)}
+.os .ayrac::before{content:"‹ ›";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;font-weight:800;color:#121210;font-size:16px;letter-spacing:2px;white-space:nowrap}
+.os input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0;touch-action:pan-y}
+.etk{position:absolute;bottom:14px;z-index:2;font-size:12px;font-weight:800;padding:6px 11px;border-radius:999px;background:rgba(15,15,14,.75);color:#fff;pointer-events:none}
+.etk.sol{left:14px}.etk.sag{right:14px;background:var(--vurgu);color:#121210}
+.ipucu{font-size:13px;color:var(--ikincil);margin-top:10px}
+
+/* sekme */
+.sekmeler{display:flex;gap:6px;margin:0 0 12px;flex-wrap:wrap}
+.sekmeler button{font:700 13px Manrope,sans-serif;color:var(--ikincil);background:var(--yuzey);border:1px solid var(--cizgi);padding:8px 14px;border-radius:999px;cursor:pointer}
+.sekmeler button[aria-pressed="true"]{color:#121210;background:var(--vurgu);border-color:var(--vurgu)}
+
+.foto{border-radius:16px;overflow:hidden;background:var(--yuzey);border:1px solid var(--cizgi)}
+.foto figcaption{font-size:13px;color:var(--ikincil);padding:11px 14px}
+.tasarim{background:#0a0a09;padding:0}
+.ikili{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media (max-width:800px){.ikili{grid-template-columns:1fr}}
+.ikili .foto img{aspect-ratio:3/2;object-fit:cover}
+.maddeler{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+@media (max-width:860px){.maddeler{grid-template-columns:1fr}}
+.madde{background:var(--yuzey);border-radius:14px;padding:16px 18px;border:1px solid var(--cizgi);font-size:14.5px}
+.madde b{display:block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--vurgu);margin-bottom:6px}
+.not{background:var(--yuzey);border-left:4px solid var(--vurgu);border-radius:10px;padding:16px 18px;margin-top:14px;font-size:15px}
+.not b{font-weight:800}
+
+/* tablo */
+.tablo{width:100%;border-collapse:collapse;font-size:15px;background:var(--yuzey);border-radius:14px;overflow:hidden}
+.tablo th,.tablo td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--cizgi);font-variant-numeric:tabular-nums;vertical-align:top}
+.tablo th{font-size:12px;font-weight:800;color:var(--ikincil);letter-spacing:.04em}
+.tablo tr:last-child td{border-bottom:0}
+.tablo td:first-child{font-weight:800;white-space:nowrap}
+.kayan{overflow-x:auto;border-radius:14px;border:1px solid var(--cizgi)}
+.rozet{display:inline-block;font-size:11.5px;font-weight:800;padding:3px 8px;border-radius:999px;background:var(--yuzey2);color:var(--metin);margin:2px 4px 2px 0;white-space:nowrap}
+.rozet.y{background:var(--vurgu);color:#121210}
+
+footer{padding:96px 0 48px;color:var(--ikincil);font-size:13px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer b{color:var(--metin);font-weight:800}
+@media (prefers-reduced-motion:reduce){html.js .gor{opacity:1;transform:none;transition:none}.kapak img{animation:none}}
+
+/* uygulama bölümü */
+.app-izgara{display:grid;grid-template-columns:1fr 250px;gap:14px;align-items:start}
+@media (max-width:860px){.app-izgara{grid-template-columns:1fr}.app-izgara .telefon{max-width:280px;margin:0 auto}}
+.telefon{border-radius:30px;overflow:hidden;border:6px solid #2a2a27;background:#0e0f0d}
+.ozellikler{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+@media (max-width:860px){.ozellikler{grid-template-columns:1fr}}
+.akis{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:14px;font-size:14px;font-weight:700}
+.akis span{background:var(--yuzey);border:1px solid var(--cizgi);padding:8px 12px;border-radius:999px}
+.akis i{font-style:normal;color:var(--vurgu)}
+.demo-dugme{display:inline-flex;align-items:center;gap:10px;margin-top:18px;background:var(--vurgu);color:#121210;font-weight:800;text-decoration:none;padding:14px 22px;border-radius:12px;font-size:16px}
+.demo-dugme:hover{filter:brightness(1.08)}
+/* koruma */
+img{-webkit-user-drag:none;user-select:none;-webkit-touch-callout:none;pointer-events:none}
+.os input{pointer-events:auto}
+.korumali{position:relative}
+.korumali::after{content:"";position:absolute;inset:0;background:transparent}
+body{-webkit-user-select:none;user-select:none}
+@media print{body{display:none!important}}
+</style>
+</head>
+<body>
+
+<header class="kapak">
+  <img decoding="async" src="i/on_sonra-1280.webp" srcset="i/on_sonra-640.webp 640w, i/on_sonra-1280.webp 1280w, i/on_sonra-1920.webp 1920w" sizes="100vw" alt="MACFit ön cephesi, cam giydirme uygulanmış hali" fetchpriority="high">
+  <div class="ust-bar"><div class="marka">belirgin<b>.</b></div><button class="tema" id="tema" type="button">Açık tema</button></div>
+  <div class="ic">
+    <span class="etiket">MACFit · Eskişehir</span>
+    <h1>Cam giydirme<br><span>tasarımı</span></h1>
+    <p>Üç cephe, tek bir görsel dil. Siyah zemin üzerinde neon lime ışık, hareket hâlindeki sporcular ve camların ardında okunan salon.</p>
+    <div class="ozet">
+      <div><b>3</b><span>cephe</span></div>
+      <div><b>~200 m²</b><span>cam yüzey</span></div>
+      <div><b>3</b><span>bütünleşik tasarım</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="gez" aria-label="Bölümler"><div class="kap">
+  <a href="#konsept">Konsept</a><a href="#on">Ön cephe</a><a href="#kose">Köşe</a><a href="#yan">Yan cephe</a><a href="#tasarimlar">Tasarımlar</a><a href="#plan">Cam planı</a><a href="#uygulama">Uygulama</a><a href="#uye-masasi">Üye masası</a>
+</div></nav>
+
+<main class="kap">
+
+<section id="konsept" class="gor">
+  <div class="bas"><span class="no">01</span><div><h2>Konsept</h2><p class="alt">Camlara tek bir büyük görsel işlenir. Görsel kayıtlarla bölünse de bütün olarak okunur: kayıtlar tasarımın önünde kalır, görsel arkada kesintisiz devam eder.</p></div></div>
+  <div class="ilkeler">
+    <div class="ilke"><i>ENERJİ</i><b>Hareket anı</b><span>Startta fırlayan koşucu, kutuya sıçrayan sporcu, ışık dalgası üzerinde beş branş. Her cephe bir hareketi dondurur.</span></div>
+    <div class="ilke"><i>BÜTÜNLÜK</i><b>Tek görsel dil</b><span>Üç cephe aynı palet ve ışık karakterini paylaşır. Binanın her köşesinden aynı marka okunur.</span></div>
+    <div class="ilke"><i>ŞEFFAFLIK</i><b>İçerisi görünür</b><span>Delikli, tek yönlü görüş folyosu: dışarıdan görsel okunur, salonun ışığı ve hareketi arkadan hissedilir.</span></div>
+  </div>
+  <div class="renkler">
+    <div class="renk"><i style="background:#0b0b0a"></i><div><b>Gece siyahı</b><span>Zemin, derinlik</span></div></div>
+    <div class="renk"><i style="background:#9BE31C"></i><div><b>Neon lime · #9BE31C</b><span>Işık, vurgu, marka rengi</span></div></div>
+    <div class="renk"><i style="background:#f2f2ee"></i><div><b>Kırık beyaz</b><span>Parlama ve detaylar</span></div></div>
+  </div>
+</section>
+
+<section id="on" class="gor">
+  <div class="bas"><span class="no">02</span><div><h2>Ön cephe · giriş</h2><p class="alt">Koşucu sol cam grubunda, yüzü camın ortasında. Kutuya sıçrayan sporcu sağ grupta. Girişin iki yanındaki hız çizgileri bakışı kapıya taşır; otomatik kapı şeffaf kalır.</p></div></div>
+  <div class="os" style="--k:50%">
+    <img decoding="async" src="i/on_sonra-1280.webp" srcset="i/on_sonra-640.webp 640w, i/on_sonra-1280.webp 1280w, i/on_sonra-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Ön cephe, uygulama sonrası" loading="lazy">
+    <img decoding="async" class="ust" src="i/on_once-1280.webp" srcset="i/on_once-640.webp 640w, i/on_once-1280.webp 1280w, i/on_once-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Ön cephe, mevcut hali" loading="lazy">
+    <span class="etk sol">Mevcut</span><span class="etk sag">Uygulama sonrası</span>
+    <div class="ayrac"></div>
+    <input type="range" min="0" max="100" value="50" aria-label="Ön cephe: mevcut ve uygulama sonrası görünümü karşılaştır">
+  </div>
+  <p class="ipucu">Karşılaştırmak için görselin üzerinde sağa sola kaydırın.</p>
+</section>
+
+<section id="kose" class="gor">
+  <div class="bas"><span class="no">03</span><div><h2>Köşe</h2><p class="alt">Solda ön cephe, köşeyi dönünce yan cephe. Beş sporcu tek bir ışık dalgası üzerinde soldan sağa akar. Üst camlar boş bırakılarak cephe ferahlatılır.</p></div></div>
+  <div class="os" style="--k:50%">
+    <img decoding="async" src="i/kose_sonra-1280.webp" srcset="i/kose_sonra-640.webp 640w, i/kose_sonra-1280.webp 1280w, i/kose_sonra-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Köşe, uygulama sonrası" loading="lazy">
+    <img decoding="async" class="ust" src="i/kose_once-1280.webp" srcset="i/kose_once-640.webp 640w, i/kose_once-1280.webp 1280w, i/kose_once-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Köşe, mevcut hali" loading="lazy">
+    <span class="etk sol">Mevcut</span><span class="etk sag">Uygulama sonrası</span>
+    <div class="ayrac"></div>
+    <input type="range" min="0" max="100" value="50" aria-label="Köşe: mevcut ve uygulama sonrası görünümü karşılaştır">
+  </div>
+</section>
+
+<section id="yan" class="gor">
+  <div class="bas"><span class="no">04</span><div><h2>Yan cephe</h2><p class="alt">Tek kahraman görsel: barı başının üstüne kaldıran halterci, plakalar iki yeşil gezegen. Kırık cam değiştirilmeden önüne çerçeveli kompozit panel monte edilir.</p></div></div>
+  <div class="os" style="--k:50%">
+    <img decoding="async" src="i/yan_sonra-1280.webp" srcset="i/yan_sonra-640.webp 640w, i/yan_sonra-1280.webp 1280w, i/yan_sonra-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Yan cephe, uygulama sonrası" loading="lazy">
+    <img decoding="async" class="ust" src="i/yan_once-1280.webp" srcset="i/yan_once-640.webp 640w, i/yan_once-1280.webp 1280w, i/yan_once-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Yan cephe, mevcut hali" loading="lazy">
+    <span class="etk sol">Mevcut</span><span class="etk sag">Uygulama sonrası</span>
+    <div class="ayrac"></div>
+    <input type="range" min="0" max="100" value="50" aria-label="Yan cephe: mevcut ve uygulama sonrası görünümü karşılaştır">
+  </div>
+  <div class="maddeler">
+    <div class="madde"><b>Kompozit panel</b>Kırık cam yerinde kalır. Önüne opak, mat baskılı kompozit panel ve 5 cm çerçeve gelir.</div>
+    <div class="madde"><b>Yarı saydam folyo</b>Diğer tüm camlarda delikli folyo: görsel okunur, salon arkadan görünür.</div>
+    <div class="madde"><b>Marka</b>Üst camdaki MACFIT logosu baskının önünde net kalır.</div>
+  </div>
+</section>
+
+<section id="tasarimlar" class="gor">
+  <div class="bas"><span class="no">05</span><div><h2>Tasarımlar</h2><p class="alt">Baskıya gidecek düz tasarım dosyaları. Cam ölçüleri netleştiğinde her cephe gerçek ölçüsüne göre büyütülüp panel panel kesilir.</p></div></div>
+  <figure class="foto tasarim"><img decoding="async" src="i/tas_on-1280.webp" srcset="i/tas_on-640.webp 640w, i/tas_on-1280.webp 1280w, i/tas_on-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Ön cephe tasarımı" loading="lazy"><figcaption>Ön cephe · startta fırlayan koşucu, ortada kapıya akan hız çizgileri, kutuya sıçrayan sporcu</figcaption></figure>
+  <figure class="foto tasarim" style="margin-top:14px"><img decoding="async" src="i/tas_kose-1280.webp" srcset="i/tas_kose-640.webp 640w, i/tas_kose-1280.webp 1280w, i/tas_kose-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Köşe tasarımı" loading="lazy"><figcaption>Köşe · ışık dalgası üzerinde boks, kettlebell, deadlift, spin ve koşu</figcaption></figure>
+  <div class="ikili">
+    <figure class="foto tasarim"><img decoding="async" src="i/tas_yan-1280.webp" srcset="i/tas_yan-640.webp 640w, i/tas_yan-1280.webp 1280w, i/tas_yan-1920.webp 1920w" sizes="(max-width:800px) 100vw, 610px" alt="Yan cephe tasarımı" loading="lazy"><figcaption>Yan cephe · gezegen plakalı bar ile halterci</figcaption></figure>
+    <figure class="foto"><img decoding="async" src="i/yan_temiz-1280.webp" srcset="i/yan_temiz-640.webp 640w, i/yan_temiz-1280.webp 1280w, i/yan_temiz-1920.webp 1920w" sizes="(max-width:800px) 100vw, 610px" alt="Yan cephe, folyo sökülmüş temiz hali" loading="lazy"><figcaption>Yan cephe · mevcut folyolar söküldükten sonraki temiz hal</figcaption></figure>
+  </div>
+</section>
+
+<section id="plan" class="gor">
+  <div class="bas"><span class="no">06</span><div><h2>Cam planı</h2><p class="alt">Her cam numaralandırıldı. Revizyon ve baskı kesimi bu numaralar üzerinden yürür.</p></div></div>
+  <div class="sekmeler" role="group" aria-label="Cephe seçimi">
+    <button type="button" data-p="on" aria-pressed="true">Ön cephe · 21</button>
+    <button type="button" data-p="kose" aria-pressed="false">Köşe · 26</button>
+    <button type="button" data-p="yan" aria-pressed="false">Yan cephe · 10</button>
+  </div>
+  <figure class="foto"><img decoding="async" id="plan-img" src="i/on_plan-1280.webp" srcset="i/on_plan-640.webp 640w, i/on_plan-1280.webp 1280w, i/on_plan-1920.webp 1920w" sizes="(max-width:1280px) 100vw, 1232px" alt="Ön cephe cam planı" loading="lazy"><figcaption id="plan-cap">Ön cephe: 1–9 sol grup, 10–13 giriş çevresi, 14–21 sağ grup. Otomatik kapı numarasız ve şeffaf.</figcaption></figure>
+  <div class="kayan" style="margin-top:14px"><table class="tablo">
+    <thead><tr><th>Cephe</th><th>Baskılı</th><th>Boş / özel</th></tr></thead>
+    <tbody>
+      <tr><td>Ön</td><td><span class="rozet y">1–21</span> tümü, üst camlar dahil</td><td><span class="rozet">Otomatik kapı</span> şeffaf</td></tr>
+      <tr><td>Köşe</td><td><span class="rozet y">1–13</span> ön cephe tasarımı · <span class="rozet y">15 17 19 21 · 22–26</span> köşe tasarımı</td><td><span class="rozet">14 16 18 20</span> boş, şeffaf</td></tr>
+      <tr><td>Yan</td><td><span class="rozet y">1–4 · 6–10</span> yarı saydam folyo</td><td><span class="rozet y">5</span> kırık cam önüne kompozit panel, 5 cm çerçeve</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="uygulama" class="gor">
+  <div class="bas"><span class="no">07</span><div><h2>Uygulama</h2></div></div>
+  <div class="maddeler">
+    <div class="madde"><b>Söküm</b>Mevcut yıpranmış ve yırtık folyoların tamamı sökülür, camlar temizlenir.</div>
+    <div class="madde"><b>Folyo</b>Tek yönlü görüş (OWV) delikli folyo; dışarıdan görsel, içeriden dış görüş.</div>
+    <div class="madde"><b>Kompozit</b>Kırık cam bölümüne baskılı kompozit panel ve çerçeve.</div>
+  </div>
+  <div class="not"><b>Uygulama öncesi:</b> camların en × boy ölçüleri sahada tek tek alınmalıdır. Tasarımlar bu ölçülere göre ölçeklenip panel panel kesilecek, MACFit logosu vektör dosyadan yerleştirilecektir.</div>
+  <div class="not">Görseller sunum amaçlıdır. Cam bölümlemesi fotoğraflardan çıkarılmıştır; ekrandaki renk tonları baskı provasıyla teyit edilmelidir.</div>
+</section>
+
+
+<section id="uye-masasi" class="gor">
+  <div class="bas"><span class="no">08</span><div><h2>Üye masası · müşteri takip uygulaması</h2><p class="alt">Mevcut ve potansiyel üyeler için takip sistemi. Ön iletişimi uygulama yürütür: doğum günü, yenileme, geri kazanım ve kampanya mesajları otomatik gider. Olumlu yanıt veren ya da yanıt vermeyen kritik kişiler personelin arama listesine düşer.</p></div></div>
+  <div class="akis"><span>Otomatik mesaj</span><i>→</i><span>Üyenin yanıtı</span><i>→</i><span>Personel araması</span><i>→</i><span>Yenileme / kayıt</span></div>
+  <div class="app-izgara" style="margin-top:16px">
+    <figure class="foto"><img src="i/app_masaustu-1280.webp" srcset="i/app_masaustu-640.webp 640w, i/app_masaustu-1280.webp 1280w, i/app_masaustu-1920.webp 1920w" sizes="(max-width:860px) 100vw, 970px" alt="Üye masası, masaüstü görünümü" loading="lazy" decoding="async"><figcaption>Masaüstü · bugün aranacaklar, kişi kartı, görüşme sonucu</figcaption></figure>
+    <div class="telefon"><img src="i/app_mobil-750.webp" srcset="i/app_mobil-375.webp 375w, i/app_mobil-750.webp 750w" sizes="250px" alt="Üye masası, mobil görünüm" loading="lazy" decoding="async"></div>
+  </div>
+  <div class="ozellikler">
+    <div class="madde"><b>Mevcut üyeler</b>Yenilemesi yaklaşan, süresi dolan, salona gelmeyen ve doğum günü olan üyeler ayrı listelerde.</div>
+    <div class="madde"><b>Potansiyel üyeler</b>Instagram, web formu ya da şube ziyaretinden gelen adaylar: karşılama mesajı, deneme dersi, teklif, kayıt.</div>
+    <div class="madde"><b>Kampanyalar</b>Kara Cuma, yeni yıl, 14 Şubat, yaza hazırlık, okula dönüş ve erken yenileme. Tek tıkla doğru kitleye.</div>
+    <div class="madde"><b>Personel masası</b>Tek ekranda kişi kartı, tek tuşla görüşme sonucu, otomatik geri arama hatırlatması.</div>
+    <div class="madde"><b>Panel</b>Aktif üye, yenileme oranı, aylık satış, aday hunisi ve önümüzdeki 30 günde bitecek üyelikler.</div>
+    <div class="madde"><b>İzin ve kayıt</b>Yalnız ticari ileti izni olan kişilere otomatik mesaj gider. Mevcut liste Excel'den içe aktarılır.</div>
+  </div>
+  <a class="demo-dugme" href="uye-masasi/" target="_blank" rel="noopener">Canlı demoyu aç <span aria-hidden="true">→</span></a>
+  <p class="ipucu">Demo telefonda ve bilgisayarda çalışır. Kişiler hayalidir; arama ve WhatsApp açılmaz, mesaj yanıtları simüle edilir.</p>
+</section>
+
+<footer><span><b>belirgin</b> · MACFit cam giydirme</span><span>Ekim 2026</span></footer>
+</main>
+
+<script>
+document.documentElement.classList.add('js');
+try{
+ var kok=document.documentElement,b=document.getElementById('tema');
+ function ayarla(t){if(t==='light'){kok.setAttribute('data-theme','light');b.textContent='Koyu tema';}else{kok.removeAttribute('data-theme');b.textContent='Açık tema';}}
+ var k=null;try{k=localStorage.getItem('tema');}catch(e){}
+ ayarla(k);
+ b.addEventListener('click',function(){var y=kok.getAttribute('data-theme')==='light'?'dark':'light';ayarla(y);try{localStorage.setItem('tema',y);}catch(e){}});
+}catch(e){}
+try{
+ document.querySelectorAll('.os').forEach(function(o){var i=o.querySelector('input');i.addEventListener('input',function(){o.style.setProperty('--k',i.value+'%');});});
+}catch(e){}
+try{
+ var CAP={on:'Ön cephe: 1–9 sol grup, 10–13 giriş çevresi, 14–21 sağ grup. Otomatik kapı numarasız ve şeffaf.',
+  kose:'Köşe: 1–13 ön cephenin yandan görünüşü, 14–26 yan cephe. 14, 16, 18 ve 20 boş bırakılır.',
+  yan:'Yan cephe: 5 numara kırık cam, önüne kompozit panel gelir. 7 numara MACFIT logolu üst cam.'};
+ var AD={on:'Ön cephe',kose:'Köşe',yan:'Yan cephe'};
+ var im=document.getElementById('plan-img'),cp=document.getElementById('plan-cap');
+ document.querySelectorAll('.sekmeler button').forEach(function(bt){
+  bt.addEventListener('click',function(){
+   var p=bt.getAttribute('data-p');
+   document.querySelectorAll('.sekmeler button').forEach(function(x){x.setAttribute('aria-pressed',x===bt?'true':'false');});
+   im.srcset='i/'+p+'_plan-640.webp 640w, i/'+p+'_plan-1280.webp 1280w, i/'+p+'_plan-1920.webp 1920w';im.src='i/'+p+'_plan-1280.webp';im.alt=AD[p]+' cam planı';cp.textContent=CAP[p];
+  });
+ });
+}catch(e){}
+try{
+ var as=document.querySelectorAll('nav.gez a'),ss=document.querySelectorAll('main section[id]');
+ if('IntersectionObserver' in window){
+  var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){as.forEach(function(a){a.classList.toggle('aktif',a.getAttribute('href')==='#'+e.target.id);});}});},{rootMargin:'-45% 0px -50% 0px'});
+  ss.forEach(function(s){so.observe(s);});
+ }
+ var gs=document.querySelectorAll('.gor');
+ if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('acik');io.unobserve(e.target);}});},{rootMargin:'0px 0px -8% 0px'});
+  gs.forEach(function(g){io.observe(g);});
+ } else gs.forEach(function(g){g.classList.add('acik');});
+ setTimeout(function(){gs.forEach(function(g){g.classList.add('acik');});},3500);
+}catch(e){document.querySelectorAll('.gor').forEach(function(g){g.classList.add('acik');});}
+try{window.addEventListener('load',function(){setTimeout(function(){['kose','yan'].forEach(function(n){var x=new Image();x.src='i/'+n+'_plan-1280.webp';});},1500);});}catch(e){}
+try{
+ document.addEventListener('contextmenu',function(e){e.preventDefault();});
+ document.addEventListener('dragstart',function(e){e.preventDefault();});
+ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();if((e.metaKey||e.ctrlKey)&&(k==='s'||k==='p'||k==='u')){e.preventDefault();}});
+}catch(e){}
+</script>
+</body>
+</html>
