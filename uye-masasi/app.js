@@ -45,26 +45,27 @@ const VARSAYILAN_AYARLAR = {
   ],
   otomasyon: { dogum: true, y30: true, y7: true, doldu: true, pasif: true, aday: true },
   sablonlar: {
-    dogum: 'İyi ki doğdun {ad}! 🎉 MACFit {sube} ailesi olarak yeni yaşının sağlık ve enerji dolu geçmesini dileriz. Hediyemiz: bu hafta getireceğin bir arkadaşına 1 hafta ücretsiz giriş.',
-    y30: 'Merhaba {ad}, MACFit {sube} üyeliğin {bitis} tarihinde bitiyor. Şimdi yenilersen sana özel erken yenileme fiyatı geçerli. Bilgi için bu mesaja yanıt vermen yeterli.',
-    y7: 'Merhaba {ad}, MACFit {sube} üyeliğin {kalan}. Antrenman ritmin bozulmasın, yenilemek ister misin? “Evet” yazman yeterli, ekibimiz seni arasın.',
-    doldu: 'Merhaba {ad}, seni MACFit {sube}\'de özledik! Geri dönüşüne özel ilk ay %20 indirim tanımladık. İlgilenirsen bu mesaja yanıt ver, seni arayalım.',
-    pasif: 'Merhaba {ad}, {pasif} gündür seni salonda göremedik. Programını birlikte yeniden planlayalım mı? Antrenörlerimizle ücretsiz bir değerlendirme ayarlayabiliriz.',
-    aday: 'Merhaba {ad}, MACFit {sube}\'ye gösterdiğin ilgi için teşekkürler! Seni ücretsiz deneme dersine davet ediyoruz. Hangi gün ve saat sana uygun?',
-    teklif: 'Merhaba {ad}, konuştuğumuz üyelik seçenekleri:\n{paketler}\nKayıt için şubemize uğrayabilir ya da bu mesaja yanıt verebilirsin. MACFit {sube}',
-    genel: 'Merhaba {ad}, MACFit {sube}\'den yazıyorum.',
-    yenileme: 'Merhaba {ad}, MACFit {sube}\'den yazıyorum. Üyeliğini yenilemekle ilgili konuştuklarımızı özetliyorum:'
+    dogum: 'Sayın {ad}, doğum gününüzü en içten dileklerimizle kutlarız! MACFit {sube} ailesi olarak yeni yaşınızın sağlık ve enerji dolu geçmesini dileriz. Hediyemiz: bu hafta getireceğiniz bir arkadaşınıza 1 hafta ücretsiz giriş.',
+    y30: 'Sayın {ad}, MACFit {sube} üyeliğiniz {bitis} tarihinde sona eriyor. Şimdi yenilemeniz hâlinde size özel erken yenileme fiyatı geçerlidir. Bilgi almak için bu mesajı yanıtlamanız yeterli.',
+    y7: 'Sayın {ad}, MACFit {sube} üyeliğiniz {kalan}. Antrenman düzeninizin aksamaması için üyeliğinizi yenilemek ister misiniz? “Evet” yazmanız yeterli, ekibimiz sizi arasın.',
+    doldu: 'Sayın {ad}, sizi MACFit {sube}\'de yeniden görmek isteriz. Geri dönüşünüze özel ilk ay %20 indirim tanımladık. İlgilenirseniz bu mesajı yanıtlayın, sizi arayalım.',
+    pasif: 'Sayın {ad}, {pasif} gündür sizi salonumuzda göremedik. Programınızı birlikte yeniden planlamak ister misiniz? Antrenörlerimizle ücretsiz bir değerlendirme ayarlayabiliriz.',
+    aday: 'Sayın {ad}, MACFit {sube}\'ye gösterdiğiniz ilgi için teşekkür ederiz. Sizi ücretsiz deneme dersine davet ediyoruz. Hangi gün ve saat size uygun?',
+    teklif: 'Sayın {ad}, görüştüğümüz üyelik seçenekleri:\n{paketler}\nKayıt için şubemize uğrayabilir ya da bu mesajı yanıtlayabilirsiniz. MACFit {sube}',
+    genel: 'Sayın {ad}, MACFit {sube}\'den yazıyorum.',
+    yenileme: 'Sayın {ad}, MACFit {sube}\'den yazıyorum. Üyeliğinizin yenilenmesiyle ilgili görüştüklerimizi özetliyorum:'
   },
   kampanyalar: [
-    { id: 'efsanecuma', ad: 'Efsane Cuma', bas: '11-20', bit: '11-30', kitle: 'dolan', metin: 'Merhaba {ad}, MACFit {sube}\'de Efsane Cuma başladı: yıllık üyelikte %30 indirim, 30 Kasım\'a kadar. Seni yeniden aramızda görmek isteriz. Detay için bu mesaja yanıt ver.' },
-    { id: 'supercuma', ad: 'Süper Cuma', bas: '11-24', bit: '11-30', kitle: 'aday', metin: 'Merhaba {ad}, MACFit {sube}\'de Süper Cuma fırsatı: bu hafta kayıt olana ilk ay %50 indirim ve ücretsiz kişisel antrenör seansı. Yer ayırmak için bu mesaja yanıt ver.' },
-    { id: 'yilbasi', ad: 'Yeni yıl, yeni sen', bas: '12-15', bit: '01-07', kitle: 'aday', metin: 'Merhaba {ad}, yeni yıl hedeflerine MACFit {sube} ile başla! Ocak sonuna kadar kayıtlarda ilk ay hediye. Ücretsiz deneme dersi için yanıt ver.' },
-    { id: 'sevgili', ad: 'Partnerinle gel', bas: '02-01', bit: '02-14', kitle: 'uye', metin: 'Merhaba {ad}, 14 Şubat\'a özel: partnerini MACFit {sube}\'ye getir, ona 1 ay %50 indirim, sana 2 hafta uzatma. Detay için yanıt ver.' },
-    { id: 'yaz', ad: 'Yaza hazırlık', bas: '04-01', bit: '05-31', kitle: 'tumu', metin: 'Merhaba {ad}, yaza 8 hafta kaldı! MACFit {sube}\'de 8 haftalık dönüşüm programı başlıyor: ölçüm, beslenme planı ve grup dersleri bir arada. Yer ayırmak için yanıt ver.' },
-    { id: 'ogrenci', ad: 'Okula dönüş', bas: '09-01', bit: '09-30', kitle: 'aday', metin: 'Merhaba {ad}, öğrencilere özel yıllık üyelik MACFit {sube}\'de! Eylül boyunca öğrenci belgesiyle ek %10 indirim. Detay için yanıt ver.' },
-    { id: 'erken', ad: 'Erken yenileme', bas: null, bit: null, kitle: 'yenileme', metin: 'Merhaba {ad}, üyeliğin {bitis} tarihinde bitiyor. Bitişten önce yenileyenlere 1 ay ek süre hediye! Bilgi için yanıt ver.' }
+    { id: 'efsanecuma', ad: 'Efsane Cuma', bas: '11-20', bit: '11-30', kitle: 'dolan', metin: 'Sayın {ad}, MACFit {sube}\'de Efsane Cuma başladı: yıllık üyelikte %30 indirim, 30 Kasım\'a kadar geçerlidir. Sizi yeniden aramızda görmek isteriz. Detaylı bilgi için bu mesajı yanıtlayabilirsiniz.' },
+    { id: 'supercuma', ad: 'Süper Cuma', bas: '11-24', bit: '11-30', kitle: 'aday', metin: 'Sayın {ad}, MACFit {sube}\'de Süper Cuma fırsatı: bu hafta kayıt olanlara ilk ay %50 indirim ve ücretsiz kişisel antrenör seansı. Yer ayırmak için bu mesajı yanıtlayabilirsiniz.' },
+    { id: 'yilbasi', ad: 'Yeni yıl, yeni siz', bas: '12-15', bit: '01-07', kitle: 'aday', metin: 'Sayın {ad}, yeni yıl hedeflerinize MACFit {sube} ile başlayın! Ocak sonuna kadar yapılan kayıtlarda ilk ay hediyemizdir. Ücretsiz deneme dersi için bu mesajı yanıtlayabilirsiniz.' },
+    { id: 'sevgili', ad: 'Partnerinizle gelin', bas: '02-01', bit: '02-14', kitle: 'uye', metin: 'Sayın {ad}, 14 Şubat\'a özel: partnerinizi MACFit {sube}\'ye getirin; partnerinize 1 ay %50 indirim, size 2 hafta ek süre. Detay için bu mesajı yanıtlayabilirsiniz.' },
+    { id: 'yaz', ad: 'Yaza hazırlık', bas: '04-01', bit: '05-31', kitle: 'tumu', metin: 'Sayın {ad}, yaza 8 hafta kaldı! MACFit {sube}\'de 8 haftalık dönüşüm programı başlıyor: ölçüm, beslenme planı ve grup dersleri bir arada. Yer ayırmak için bu mesajı yanıtlayabilirsiniz.' },
+    { id: 'ogrenci', ad: 'Okula dönüş', bas: '09-01', bit: '09-30', kitle: 'aday', metin: 'Sayın {ad}, öğrencilere özel yıllık üyelik MACFit {sube}\'de! Eylül boyunca öğrenci belgesiyle ek %10 indirim. Detay için bu mesajı yanıtlayabilirsiniz.' },
+    { id: 'erken', ad: 'Erken yenileme', bas: null, bit: null, kitle: 'yenileme', metin: 'Sayın {ad}, üyeliğiniz {bitis} tarihinde sona eriyor. Bitişten önce yenileyen üyelerimize 1 ay ek süre hediye ediyoruz. Bilgi için bu mesajı yanıtlayabilirsiniz.' }
   ]
 };
+const METIN_SURUM = 2;
 
 const SONUC = {
   uye: [
@@ -160,10 +161,14 @@ async function baslat() {
   durum.ayarlar.sablonlar = { ...VARSAYILAN_AYARLAR.sablonlar, ...(durum.ayarlar.sablonlar || {}) };
   durum.ayarlar.otomasyon = { ...VARSAYILAN_AYARLAR.otomasyon, ...(durum.ayarlar.otomasyon || {}) };
   if (!Array.isArray(durum.db.kampanyaKuyruk)) durum.db.kampanyaKuyruk = [];
-  if (!Array.isArray(durum.ayarlar.kampanyalar) || durum.ayarlar.kampanyalar.some(c => c.id === 'karacuma')) {
-    const eski = (durum.ayarlar.kampanyalar || []).filter(c => c.id !== 'karacuma');
-    durum.ayarlar.kampanyalar = [...VARSAYILAN_AYARLAR.kampanyalar.filter(c => !eski.some(x => x.id === c.id)).map(kopya), ...eski];
-    durum.db.kampanyaKuyruk = durum.db.kampanyaKuyruk.filter(x => x.kampId !== 'karacuma');
+  // Metinler güncellendiyse (ör. resmi hitap, yeni kampanyalar) kayıtlı eski şablonların yerine yenileri geçer.
+  if ((durum.ayarlar.metinSurum || 1) < METIN_SURUM) {
+    durum.ayarlar.sablonlar = { ...VARSAYILAN_AYARLAR.sablonlar };
+    durum.ayarlar.kampanyalar = kopya(VARSAYILAN_AYARLAR.kampanyalar);
+    durum.ayarlar.metinSurum = METIN_SURUM;
+    const kimlik = new Set(durum.ayarlar.kampanyalar.map(c => c.id));
+    durum.db.kampanyaKuyruk = durum.db.kampanyaKuyruk.filter(x => kimlik.has(x.kampId));
+    if (durum.db.demo) durum.db.kisiler.forEach(k => (k.mesajlar || []).forEach(m => { if (durum.ayarlar.sablonlar[m.kural]) m.metin = '(Şablon mesaj gönderildi)'; }));
   }
   durum.db.kisiler.forEach(k => {
     k.mesajlar = k.mesajlar || []; k.gecmis = k.gecmis || [];
