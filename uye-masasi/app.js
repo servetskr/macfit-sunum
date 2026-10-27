@@ -92,13 +92,14 @@ const ULASILAN = new Set([...ARAMA_SONUCLARI].filter(d => !['ulasilamadi', 'yanl
 
 const GORUNUMLER = [
   { id: 'bugun', ad: 'Bugün aranacaklar', kisa: 'Bugün', ikon: 'i-telefon' },
-  { id: 'yenileme', ad: 'Yenilemesi yaklaşan', kisa: 'Yenileme', ikon: 'i-yenile' },
-  { id: 'dolan', ad: 'Süresi dolan', kisa: 'Dolan', ikon: 'i-geri' },
-  { id: 'dogum', ad: 'Doğum günleri', kisa: 'Doğum günü', ikon: 'i-pasta' },
-  { id: 'pasif', ad: 'Salona gelmeyenler', kisa: 'Gelmeyen', ikon: 'i-uyku' },
-  { id: 'aday', ad: 'Potansiyel üyeler', kisa: 'Adaylar', ikon: 'i-yildiz' },
-  { id: 'tumu', ad: 'Tüm kayıtlar', kisa: 'Tümü', ikon: 'i-kisiler' }
+  { id: 'yenileme', ad: 'Yenilemesi yaklaşan', kisa: 'Yenileme', ikon: 'i-yenile', grup: 'Üyeler' },
+  { id: 'dolan', ad: 'Süresi dolan', kisa: 'Dolan', ikon: 'i-geri', grup: 'Üyeler' },
+  { id: 'pasif', ad: 'Salona gelmeyen', kisa: 'Gelmeyen', ikon: 'i-uyku', grup: 'Üyeler' },
+  { id: 'dogum', ad: 'Doğum günü', kisa: 'Doğum günü', ikon: 'i-pasta', grup: 'Üyeler' },
+  { id: 'aday', ad: 'Potansiyel üyeler', kisa: 'Adaylar', ikon: 'i-yildiz', grup: 'Satış' },
+  { id: 'tumu', ad: 'Tüm kişiler', kisa: 'Tümü', ikon: 'i-kisiler', grup: 'Satış' }
 ];
+const ANA_SONUC = { uye: ['yeniledi', 'dusunecek', 'tekrar_ara', 'ulasilamadi'], aday: ['kayit', 'deneme', 'teklif', 'tekrar_ara', 'ulasilamadi'] };
 
 const ASAMA = { yeni: 'Yeni aday', deneme: 'Deneme dersi', teklif: 'Teklif verildi', kayit: 'Üye oldu', kayip: 'Kaybedildi' };
 
@@ -128,6 +129,7 @@ const KITLE = {
 
 // ---------------- durum ----------------
 const durum = {
+  sekme: 'gorusme', kartId: null,
   db: null, ayarlar: null, gorunum: 'bugun', filtre: 'hepsi', seciliId: null, arama: '', gorunenler: [],
   cagriBas: null, sayacTimer: null, bekleyen: null, geriAl: null, ekran: 'liste'
 };
@@ -183,13 +185,13 @@ function filtrele(liste) {
 
 function rozet(k, g) {
   switch (g) {
-    case 'bugun': { const t = new Date(k.ara.zaman); return t.getTime() > Date.now() - 5 * 60000 ? ['Şimdi', 'lime'] : bugunMu(t) ? [sadeceSaat(t), 'lime'] : [`${-gunFarki(t)} gündür bekliyor`, 'turuncu']; }
-    case 'yenileme': { const x = kalan(k); return [x === 0 ? 'Bugün bitiyor' : `${x} gün`, x <= 7 ? 'turuncu' : 'sari']; }
-    case 'dolan': return [`${-kalan(k)} gün önce`, 'kirmizi'];
-    case 'dogum': { const x = dogumKalan(k); return [x === 0 ? 'Bugün 🎂' : x === 1 ? 'Yarın' : `${x} gün`, x === 0 ? 'lime' : 'mor']; }
-    case 'pasif': return [`${pasifGun(k)} gündür yok`, 'turuncu'];
-    case 'aday': return [ASAMA[k.aday.asama], k.aday.asama === 'yeni' ? 'mavi' : 'sari'];
-    default: return k.tur === 'uye' ? (kalan(k) < 0 ? ['Süresi doldu', 'kirmizi'] : ['Üye', 'gri']) : [ASAMA[k.aday?.asama] || 'Aday', 'mavi'];
+    case 'bugun': { const t = new Date(k.ara.zaman); return bugunMu(t) ? [sadeceSaat(t), 'vurgu'] : [`${-gunFarki(t)} gün`, 'uyari']; }
+    case 'yenileme': { const x = kalan(k); return [x === 0 ? 'Bugün' : `${x} gün`, x <= 7 ? 'uyari' : 'notr']; }
+    case 'dolan': return [`${-kalan(k)} gün önce`, 'notr'];
+    case 'dogum': { const x = dogumKalan(k); return [x === 0 ? 'Bugün' : x === 1 ? 'Yarın' : `${x} gün`, x === 0 ? 'vurgu' : 'notr']; }
+    case 'pasif': return [`${pasifGun(k)} gün`, 'notr'];
+    case 'aday': return [ASAMA[k.aday.asama], 'notr'];
+    default: return [k.tur === 'uye' ? (kalan(k) < 0 ? 'Eski üye' : 'Üye') : 'Aday', 'notr'];
   }
 }
 
@@ -208,28 +210,27 @@ function ciz() { cizKenar(); cizListe(); cizKart(); cizSayac(); }
 
 function cizKenar() {
   $('#sube').textContent = durum.ayarlar.sube;
+  let grup = null;
   $('#gorunumler').innerHTML = GORUNUMLER.map(g => {
-    const n = filtrele(gorunumListesi(g.id)).length;
-    const dikkat = g.id === 'bugun' && n > 0;
-    return `<button class="gorunum ${g.id === durum.gorunum ? 'secili' : ''}" data-gorunum="${g.id}">${svg(g.ikon)}<span>${g.ad}</span><span class="say ${dikkat ? 'dikkat' : ''}">${n}</span></button>`;
+    const n = gorunumListesi(g.id).length;
+    const ust = g.grup && g.grup !== grup ? `<div class="grup">${g.grup}</div>` : '';
+    grup = g.grup || grup;
+    return `${ust}<button class="gorunum ${g.id === durum.gorunum ? 'secili' : ''} ${g.id === 'bugun' ? 'birincil' : ''}" data-gorunum="${g.id}">${svg(g.ikon)}<span>${g.ad}</span><span class="say ${g.id === 'bugun' && n ? 'dikkat' : ''}">${n || ''}</span></button>`;
   }).join('');
   $$('#altNav [data-gorunum]').forEach(b => {
     b.classList.toggle('secili', b.dataset.gorunum === durum.gorunum);
-    const n = filtrele(gorunumListesi(b.dataset.gorunum)).length;
-    const s = $('.say', b); if (s) { s.textContent = n; s.hidden = !n; }
+    const n = gorunumListesi(b.dataset.gorunum).length;
+    const s = $('.say', b); if (s) { s.textContent = n; s.hidden = !n || b.dataset.gorunum !== 'bugun'; }
   });
-
-  // Bugünün sayıları
   const bugunku = kisiler().flatMap(k => k.gecmis.filter(g => bugunMu(g.t)));
   const aranan = bugunku.filter(g => ARAMA_SONUCLARI.has(g.d)).length;
   const ulasilan = bugunku.filter(g => ULASILAN.has(g.d)).length;
-  const yenileyen = bugunku.filter(g => ['yeniledi', 'kayit'].includes(g.d));
-  const ciro = yenileyen.reduce((t, g) => t + (Number(g.tutar) || 0), 0);
-  const oto = bugunku.filter(g => g.d === 'oto').length;
+  const satis = bugunku.filter(g => ['yeniledi', 'kayit'].includes(g.d));
+  const ciro = satis.reduce((t, g) => t + (Number(g.tutar) || 0), 0);
   const hedef = durum.ayarlar.gunlukHedef || 30;
-  $('#gunHedef').textContent = `${aranan} / ${hedef}`;
+  $('#gunHedef').textContent = `${aranan}/${hedef} arama`;
   $('#gunBar').style.width = Math.min(100, aranan / hedef * 100) + '%';
-  $('#gunSayilar').innerHTML = `<span>Ulaşılan <b>${ulasilan}</b></span><span>Yenileyen / kayıt <b>${yenileyen.length}</b></span><span>Otomatik mesaj <b>${oto}</b></span><span>Bugünkü satış <b>${TL(ciro)}</b></span>`;
+  $('#gunSayilar').textContent = `${ulasilan} ulaşıldı · ${satis.length} satış · ${TL(ciro)}`;
   const kuyruk = otoKuyruk().length;
   $$('.oto-say').forEach(x => { x.textContent = kuyruk; x.hidden = !kuyruk; });
 }
@@ -254,15 +255,21 @@ function cizListe() {
   $('#liste').innerHTML = liste.map(k => {
     const [r, renk] = rozet(k, g);
     return `<button class="satir ${k.id === durum.seciliId ? 'secili' : ''}" data-id="${k.id}">
-      <span class="av ${k.tur}">${esc(basHarf(k.ad))}</span>
-      <span class="satir-orta"><span class="ad">${esc(k.ad)}${k.izin ? '' : ' <i class="izinsiz" title="İleti izni yok">izinsiz</i>'}</span><span class="alt">${altBilgi(k, g)}</span></span>
+      <span class="av">${esc(basHarf(k.ad))}</span>
+      <span class="satir-orta"><span class="ad">${esc(k.ad)}</span><span class="alt">${altBilgi(k, g)}</span></span>
       <span class="rozet r-${renk}">${esc(r)}</span></button>`;
-  }).join('') || `<div class="liste-bos">${svg('i-onay')}<b>${q ? 'Eşleşen kayıt yok' : durum.gorunum === 'bugun' ? 'Şu an aranacak kimse yok' : 'Bu görünümde kayıt yok'}</b><span>${durum.gorunum === 'bugun' && !q ? 'Otomasyon yanıtları ve geri aramalar zamanı gelince buraya düşer.' : ''}</span></div>`;
+  }).join('') || `<div class="liste-bos"><b>${q ? 'Eşleşen kişi yok' : durum.gorunum === 'bugun' ? 'Bugünlük bu kadar' : 'Burada kimse yok'}</b><span>${durum.gorunum === 'bugun' && !q ? 'Yanıtlar ve geri aramalar zamanı gelince buraya düşer.' : ''}</span></div>`;
   $('#liste .secili')?.scrollIntoView({ block: 'nearest' });
 }
 
 function bilgi(et, deger, alt = '', cls = '') {
-  return `<div class="bilgi ${cls}"><span>${et}</span><b>${deger}</b>${alt ? `<small>${alt}</small>` : ''}</div>`;
+  return `<div class="bilgi ${cls}"><dt>${et}</dt><dd>${deger}${alt ? `<small>${alt}</small>` : ''}</dd></div>`;
+}
+
+function sekmeSec(s) {
+  durum.sekme = s;
+  $$('.sekmeler [data-sekme]').forEach(b => b.classList.toggle('secili', b.dataset.sekme === s));
+  $$('[data-sekme-ic]').forEach(x => { x.hidden = x.dataset.sekmeIc !== s; });
 }
 
 function cizKart() {
@@ -271,70 +278,77 @@ function cizKart() {
   document.body.dataset.ekran = k && durum.ekran === 'detay' ? 'detay' : 'liste';
   if (!k) return;
   const uye = k.tur === 'uye';
+  if (durum.kartId !== k.id) { durum.kartId = k.id; sekmeSec('gorusme'); }
   $('#kAvatar').textContent = basHarf(k.ad);
-  $('#kAvatar').className = 'avatar ' + k.tur;
   $('#kAd').textContent = k.ad;
-  const et = [];
+
+  // tek satırlık durum
+  let nokta = 'notr', metin;
   if (uye) {
     const x = kalan(k);
-    et.push(`<span class="etk lime">Üye</span>`, `<span class="etk">${esc(k.uyelik.paket)}</span>`);
-    et.push(x < 0 ? `<span class="etk kirmizi">Süresi doldu</span>` : x <= 30 ? `<span class="etk turuncu">${x === 0 ? 'Bugün bitiyor' : x + ' gün kaldı'}</span>` : `<span class="etk yesil">Aktif</span>`);
-    if (pasifGun(k) >= 14 && x >= 0) et.push(`<span class="etk turuncu">${pasifGun(k)} gündür gelmedi</span>`);
+    metin = `${esc(k.uyelik.paket)} üyelik · ` + (x < 0 ? `${-x} gün önce bitti` : x === 0 ? 'bugün bitiyor' : `${x} gün kaldı`);
+    nokta = x < 0 ? 'kapali' : x <= 30 ? 'uyari' : 'aktif';
   } else {
-    et.push(`<span class="etk mavi">Potansiyel üye</span>`, `<span class="etk">${ASAMA[k.aday?.asama] || 'Aday'}</span>`);
+    metin = `Potansiyel üye · ${ASAMA[k.aday?.asama] || 'Yeni'}`;
+    nokta = 'aday';
   }
-  if (dogumKalan(k) === 0) et.push(`<span class="etk mor">Bugün doğum günü 🎂</span>`);
-  $('#kEtiketler').innerHTML = et.join('');
-  $('#kMeta').textContent = [k.kaynak, k.kayit ? 'Kayıt ' + tarihYaz(k.kayit) : '', k.cinsiyet === 'K' ? 'Kadın' : k.cinsiyet === 'E' ? 'Erkek' : ''].filter(Boolean).join(' · ');
+  if (dogumKalan(k) === 0) metin += ' · bugün doğum günü';
+  $('#kEtiketler').innerHTML = `<i class="nokta n-${nokta}"></i>${metin}`;
 
-  $('#kTel').textContent = k.telefon ? telYaz(k.telefon) : 'Telefon yok';
-  $('#kTelTur').textContent = !k.telefon ? '' : cepMi(k.telefon) ? 'Cep · WhatsApp' : 'Sabit hat';
-  $('#kIzin').innerHTML = k.izin ? `${svg('i-onay')} İleti izni var` : `${svg('i-uyari')} İleti izni yok · otomatik mesaj gitmez`;
-  $('#kIzin').className = 'izin ' + (k.izin ? 'var' : 'yok');
   $('#eAra').disabled = !k.telefon;
-
-  const b = [];
-  if (uye) {
-    const x = kalan(k);
-    b.push(bilgi('Paket', esc(k.uyelik.paket), TL(k.uyelik.tutar)));
-    b.push(bilgi('Bitiş', tarihYaz(k.uyelik.bitis), x < 0 ? `${-x} gün önce doldu` : x === 0 ? 'bugün' : `${x} gün kaldı`, x <= 7 ? 'uyari' : ''));
-    b.push(bilgi('Son giriş', k.sonGiris ? (s => s[0].toLocaleUpperCase('tr') + s.slice(1))(gunMetni(gunFarki(k.sonGiris))) : '—', k.sonGiris ? sadeceSaat(k.sonGiris) : '', pasifGun(k) >= 14 ? 'uyari' : ''));
-  } else {
-    b.push(bilgi('İlgi', esc(k.aday?.ilgi || '—')));
-    b.push(bilgi('Kaynak', esc(k.kaynak || '—')));
-    b.push(bilgi('Aşama', ASAMA[k.aday?.asama] || '—', k.aday?.randevu ? 'Deneme: ' + saatYaz(k.aday.randevu) : ''));
-  }
-  const dg = dogumKalan(k);
-  b.push(bilgi('Doğum günü', k.dogum ? tarihAl(k.dogum).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' }) : '—', k.dogum ? `${yas(k)} yaş · ${dg === 0 ? 'bugün' : dg + ' gün sonra'}` : ''));
-  $('#kBilgi').innerHTML = b.join('');
 
   const n = $('#kNeden');
   if (k.ara) {
     n.hidden = false;
     const gelen = araZamani(k);
     n.className = 'neden ' + (gelen ? 'simdi' : '');
-    n.innerHTML = `${svg('i-telefon')}<div><b>${gelen ? 'Aranacak' : 'Planlı arama · ' + saatYaz(k.ara.zaman)}</b><span>${esc(k.ara.neden)}</span></div>`;
+    n.innerHTML = `<b>${gelen ? 'Neden aranıyor' : 'Planlı arama · ' + saatYaz(k.ara.zaman)}</b><span>${esc(k.ara.neden)}</span>`;
   } else n.hidden = true;
 
-  // Otomatik iletişim zaman çizelgesi
+  const b = [];
+  if (uye) {
+    const x = kalan(k);
+    b.push(bilgi('Paket', esc(k.uyelik.paket), TL(k.uyelik.tutar)));
+    b.push(bilgi('Bitiş', tarihYaz(k.uyelik.bitis), x < 0 ? `${-x} gün önce` : x === 0 ? 'bugün' : `${x} gün sonra`, x <= 7 ? 'uyari' : ''));
+    b.push(bilgi('Son giriş', k.sonGiris ? (s => s[0].toLocaleUpperCase('tr') + s.slice(1))(gunMetni(gunFarki(k.sonGiris))) : '—', '', pasifGun(k) >= 14 ? 'uyari' : ''));
+  } else {
+    b.push(bilgi('İlgi', esc(k.aday?.ilgi || '—')));
+    b.push(bilgi('Kaynak', esc(k.kaynak || '—')));
+    b.push(bilgi('Deneme dersi', k.aday?.randevu ? saatYaz(k.aday.randevu) : '—'));
+  }
+  b.push(bilgi('Doğum günü', k.dogum ? tarihAl(k.dogum).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' }) : '—', k.dogum ? `${yas(k)} yaş` : ''));
+  $('#kBilgi').innerHTML = b.join('');
+
+  // görüşme sonuçları: ana seçenekler + diğerleri
+  const ana = ANA_SONUC[k.tur];
+  const tum = SONUC[k.tur];
+  $('#sonuclar').innerHTML = tum.filter(s => ana.includes(s.d)).sort((x, y) => ana.indexOf(x.d) - ana.indexOf(y.d))
+    .map(s => `<button class="sonuc ${s.iyi ? 'iyi' : ''}" data-sonuc="${s.d}"><b>${s.ad}</b><small>${s.alt}</small><kbd>${s.tus}</kbd></button>`).join('');
+  $('#digerSonuclar').innerHTML = '<span>Diğer:</span>' + tum.filter(s => !ana.includes(s.d)).map(s => `<button data-sonuc="${s.d}">${s.ad}</button>`).join('');
+  $('#kNotlar').textContent = k.notlar || '';
+  $('#kNotlar').hidden = !k.notlar;
+
+  // mesajlar
   const m = k.mesajlar.slice().reverse();
-  $('#otoSay').textContent = m.length ? `· ${m.length}` : '';
+  $('#otoSay').textContent = m.length || '';
   $('#kMesajlar').innerHTML = m.map((x) => {
     const i = k.mesajlar.indexOf(x);
     const y = x.yanit;
-    return `<li><div class="mesaj"><div class="mesaj-ust">${svg('i-simsek')}<b>${esc(x.kuralAd || kuralBul(x.kural).ad)}</b><small>${saatYaz(x.t)}</small></div>
-      <p>${esc(x.metin)}</p></div>
-      ${y ? `<div class="yanit ${y.tur}"><small>${y.tur === 'olumlu' ? 'Olumlu yanıt' : 'Olumsuz yanıt'} · ${saatYaz(y.t)}</small><p>${esc(y.metin)}</p></div>`
+    return `<li><div class="mesaj"><div class="mesaj-ust"><b>${esc(x.kuralAd || kuralBul(x.kural).ad)}</b><small>${saatYaz(x.t)}</small></div><p>${esc(x.metin)}</p></div>
+      ${y ? `<div class="yanit ${y.tur}"><p>${esc(y.metin)}</p><small>${y.tur === 'olumlu' ? 'Olumlu' : 'Olumsuz'} · ${saatYaz(y.t)}</small></div>`
         : `<div class="yanit-bekle"><span>Yanıt bekleniyor</span><button data-yanit="${i}" data-tur="olumlu">Olumlu yanıt geldi</button><button data-yanit="${i}" data-tur="olumsuz">Olumsuz</button></div>`}</li>`;
-  }).join('') || `<li class="soluk">Henüz otomatik mesaj gitmedi.${k.izin ? '' : ' İleti izni olmadığı için otomasyon bu kişiye yazmaz.'}</li>`;
+  }).join('') || `<li class="bos-satir">Henüz otomatik mesaj gönderilmedi.${k.izin ? '' : ' İleti izni olmadığı için gönderilmez.'}</li>`;
 
-  $('#sonuclar').innerHTML = SONUC[k.tur].map(s => `<button class="sonuc ${s.iyi ? 'iyi' : ''} ${s.kotu ? 'kotu' : ''}" data-sonuc="${s.d}" title="${esc(s.alt)}">
-    <span class="yazi">${s.ad}<small>${s.alt}</small></span><kbd>${s.tus}</kbd></button>`).join('');
+  // geçmiş
+  $('#gecmisSay').textContent = k.gecmis.length || '';
+  $('#kGecmis').innerHTML = k.gecmis.slice().reverse().map(g => `<li class="g-${g.d}"><i></i><div><b>${ETIKET[g.d] || g.d}</b><small>${saatYaz(g.t)}${g.zaman ? ' → ' + saatYaz(g.zaman) : ''}</small>${g.not ? `<p>${esc(g.not)}</p>` : ''}</div></li>`).join('') || '<li class="bos-satir">Kayıt yok.</li>';
 
-  $('#kNotlar').textContent = k.notlar || '';
-  $('#kNotlar').hidden = !k.notlar;
-  $('#gecmisSay').textContent = k.gecmis.length ? `· ${k.gecmis.length}` : '';
-  $('#kGecmis').innerHTML = k.gecmis.slice().reverse().map(g => `<li class="g-${g.d}"><i></i><div><b>${ETIKET[g.d] || g.d}</b> <small>${saatYaz(g.t)}</small>${g.zaman ? ` <small>→ ${saatYaz(g.zaman)}</small>` : ''}${g.not ? `<p>${esc(g.not)}</p>` : ''}</div></li>`).join('') || '<li class="soluk">Kayıt yok.</li>';
+  // alt bilgi
+  $('#kTel').textContent = k.telefon ? telYaz(k.telefon) : 'Telefon yok';
+  $('#kTelTur').textContent = '';
+  $('#kIzin').textContent = k.izin ? 'İleti izni var' : 'İleti izni yok';
+  $('#kIzin').className = 'izin ' + (k.izin ? 'var' : 'yok');
+  $('#kMeta').textContent = [k.kaynak, k.kayit ? 'kayıt ' + tarihYaz(k.kayit) : ''].filter(Boolean).join(' · ');
 }
 
 function cizSayac() {
@@ -426,6 +440,7 @@ function uygula({ d, not, zaman, paket, tutar, wa }) {
   kaydetDb();
   aramaBitir();
   $('#not').value = '';
+  if (document.activeElement?.id === 'not') document.activeElement.blur();
   durum.geriAl = once;
   const i = durum.gorunenler.findIndex(x => x.id === k.id);
   cizKenar(); cizListe();
@@ -710,20 +725,21 @@ function cizPanel() {
   ];
   const kart = (et, deger, alt) => `<div class="pkart"><span>${et}</span><b>${deger}</b>${alt ? `<small>${alt}</small>` : ''}</div>`;
   const en = huni[0][1] || 1;
+  const yanitOran = oto ? Math.round(olumlu / oto * 100) : 0;
   $('#panelIc').innerHTML = `
     <div class="pkartlar">
-      ${kart('Aktif üye', aktif.length, `${yaklasan.length} üyenin süresi 30 gün içinde bitiyor`)}
-      ${kart('Yenileme oranı', '%' + oran, `Son 30 gün · ${yenileyen.length} yenileme`)}
-      ${kart('Satış (30 gün)', TL(ciro), `${yenileyen.length} yenileme + ${kayit.length} yeni kayıt`)}
-      ${kart('Otomatik mesaj', oto, `${yanit.length} yanıt · ${olumlu} olumlu`)}
-      ${kart('Personel araması', aranan, 'Son 30 gün')}
-      ${kart('Doğum günü (7 gün)', gorunumListesi('dogum').length, 'Kutlama mesajları otomatik')}
+      ${kart('Aktif üye', aktif.length, `${yaklasan.length} kişinin süresi 30 gün içinde bitiyor`)}
+      ${kart('Yenileme oranı', '%' + oran, 'Son 30 gün')}
+      ${kart('Satış', TL(ciro), `Son 30 gün · ${yenileyen.length + kayit.length} işlem`)}
+      ${kart('Otomasyon', '%' + yanitOran, `${oto} mesajın ${olumlu} tanesine olumlu yanıt`)}
     </div>
-    <h3>Aday hunisi</h3>
-    <table class="huni">${huni.map(([a, n]) => `<tr><td>${a}</td><td class="cubuk"><i style="width:${Math.round(n / en * 100)}%"></i></td><td>${n}</td></tr>`).join('')}</table>
-    <h3>Önümüzdeki 30 günde bitecek üyelikler</h3>
-    <div class="takvim">${Array.from({ length: 30 }, (_, i) => { const n = aktif.filter(k => kalan(k) === i).length; return `<span title="${gunMetni(i)}: ${n} üyelik" style="--h:${Math.min(100, n * 34)}%"><i></i></span>`; }).join('')}</div>
-    <div class="takvim-alt"><span>Bugün</span><span>15 gün</span><span>30 gün</span></div>`;
+    <div class="rapor-iki">
+      <div><h3>Aday hunisi</h3>
+        <table class="huni">${huni.map(([a, n]) => `<tr><td>${a}</td><td class="cubuk"><i style="width:${Math.round(n / en * 100)}%"></i></td><td>${n}</td></tr>`).join('')}</table></div>
+      <div><h3>Önümüzdeki 30 gün bitecek üyelikler</h3>
+        <div class="takvim">${Array.from({ length: 30 }, (_, i) => { const n = aktif.filter(k => kalan(k) === i).length; return `<span title="${gunMetni(i)}: ${n} üyelik"><i style="height:${n ? Math.min(100, 22 + n * 26) : 0}%"></i></span>`; }).join('')}</div>
+        <div class="takvim-alt"><span>Bugün</span><span>30 gün sonra</span></div></div>
+    </div>`;
 }
 
 // ---------------- kişi ekleme / içe aktarma ----------------
@@ -802,9 +818,10 @@ const modalAcik = () => MODALLAR.some(m => !$('#' + m).hidden);
 
 // ---------------- olaylar ----------------
 document.addEventListener('click', (e) => {
-  const t = e.target.closest('[data-gorunum],[data-id],[data-sonuc],[data-kapat],[data-z],[data-paket],[data-yanit],[data-gonder],[data-kamp-gonder],[data-f],[data-tur]');
+  const t = e.target.closest('[data-sekme],[data-gorunum],[data-id],[data-sonuc],[data-kapat],[data-z],[data-paket],[data-yanit],[data-gonder],[data-kamp-gonder],[data-f],[data-tur]');
   if (!t) { if (e.target.classList.contains('modal')) { const m = e.target.id; kapat(m); durum.bekleyen = null; } return; }
-  if (t.dataset.gorunum) gorunumSec(t.dataset.gorunum);
+  if (t.dataset.sekme) sekmeSec(t.dataset.sekme);
+  else if (t.dataset.gorunum) gorunumSec(t.dataset.gorunum);
   else if (t.dataset.id) sec(t.dataset.id);
   else if (t.dataset.sonuc) sonucSec(t.dataset.sonuc);
   else if (t.dataset.kapat) { kapat(t.dataset.kapat); durum.bekleyen = null; }
@@ -844,7 +861,7 @@ $('#geri').onclick = listeyeDon;
 $('#ara').addEventListener('input', (e) => { durum.arama = e.target.value; cizListe(); if (!mobil()) cizKart(); });
 $$('[data-ac]').forEach(b => b.addEventListener('click', () => {
   const m = b.dataset.ac;
-  kapat('menuModal');
+  MODALLAR.forEach(x => { if (x !== m) $('#' + x).hidden = true; });
   if (m === 'otoModal') cizOto();
   if (m === 'kampModal') cizKamp();
   if (m === 'panelModal') cizPanel();

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0e0f0d">
+<meta name="theme-color" content="#ffffff">
 <title>MACFit Üye Masası</title>
 <link rel="icon" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -41,93 +41,89 @@
 
 <div class="uyg">
   <aside class="kenar">
-    <div class="logo"><span class="mac">MAC</span><span class="fit">FIT</span><small>Üye Masası · <b id="sube">Eskişehir</b></small></div>
+    <div class="logo"><span class="mac">MAC</span><span class="fit">FIT</span></div>
+    <div class="sube">Üye Masası · <span id="sube">Eskişehir</span></div>
 
     <nav id="gorunumler" class="gorunumler" aria-label="Görünümler"></nav>
 
-    <div class="gun-kutu">
-      <div class="gun-ust"><span>Bugünkü aramalar</span><b id="gunHedef">0 / 30</b></div>
-      <div class="ilerleme"><div id="gunBar"></div></div>
-      <div id="gunSayilar" class="gun-sayilar"></div>
+    <div class="kenar-alt">
+      <div class="araclar">
+        <button data-ac="otoModal"><svg class="ik"><use href="#i-simsek"/></svg>Otomasyon<span class="oto-say say" hidden></span></button>
+        <button data-ac="kampModal"><svg class="ik"><use href="#i-bayrak"/></svg>Kampanyalar</button>
+        <button data-ac="panelModal"><svg class="ik"><use href="#i-grafik"/></svg>Rapor</button>
+      </div>
+      <div class="gun-kutu">
+        <div class="gun-ust"><span>Bugün</span><b id="gunHedef">0 / 30</b></div>
+        <div class="ilerleme"><div id="gunBar"></div></div>
+        <div id="gunSayilar" class="gun-sayilar"></div>
+      </div>
     </div>
-
-    <div class="araclar">
-      <button data-ac="otoModal"><svg class="ik"><use href="#i-simsek"/></svg>Otomasyon<span class="oto-say say dikkat" hidden></span></button>
-      <button data-ac="kampModal"><svg class="ik"><use href="#i-bayrak"/></svg>Kampanyalar</button>
-      <button data-ac="panelModal"><svg class="ik"><use href="#i-grafik"/></svg>Panel</button>
-      <button data-ac="ekleModal"><svg class="ik"><use href="#i-arti"/></svg>Kişi ekle</button>
-      <button data-ac="iceModal"><svg class="ik"><use href="#i-yukle"/></svg>Listeyi içe aktar</button>
-      <button id="klasorAc"><svg class="ik"><use href="#i-klasor"/></svg>Veri klasörü</button>
-    </div>
-    <button class="kisayol" data-ac="yardimModal">Klavye kısayolları <kbd>?</kbd></button>
   </aside>
 
   <section class="liste-kol">
     <div class="mobil-ust">
       <div class="logo kucuk"><span class="mac">MAC</span><span class="fit">FIT</span></div>
-      <button class="ikon-dugme" data-ac="otoModal" aria-label="Otomasyon"><svg class="ik"><use href="#i-simsek"/></svg><span class="oto-say say dikkat" hidden></span></button>
+      <button class="ikon-dugme" data-ac="otoModal" aria-label="Otomasyon"><svg class="ik"><use href="#i-simsek"/></svg><span class="oto-say say" hidden></span></button>
       <button class="ikon-dugme" data-ac="menuModal" aria-label="Menü"><svg class="ik"><use href="#i-menu"/></svg></button>
     </div>
     <div class="liste-ust">
-      <label class="ara-kutu"><svg class="ik"><use href="#i-ara"/></svg><input id="ara" type="search" placeholder="İsim ya da telefon ara" autocomplete="off"><kbd>/</kbd></label>
-      <div id="filtre" class="filtre" role="group" aria-label="Kişi türü">
-        <button data-f="hepsi">Tümü</button><button data-f="uye">Üyeler</button><button data-f="aday">Adaylar</button>
-      </div>
-      <div class="liste-baslik"><b id="listeBaslik"></b><span id="listeSay" class="say"></span></div>
+      <div class="liste-baslik"><h2 id="listeBaslik"></h2><span id="listeSay" class="liste-say"></span>
+        <button class="ekle-dugme" data-ac="ekleModal" title="Kişi ekle" aria-label="Kişi ekle"><svg class="ik"><use href="#i-arti"/></svg></button></div>
+      <label class="ara-kutu"><svg class="ik"><use href="#i-ara"/></svg><input id="ara" type="search" placeholder="Ara" autocomplete="off"></label>
     </div>
     <div id="liste" class="liste"></div>
   </section>
 
   <main class="detay" id="detay">
     <div id="bos" class="bos" hidden>
-      <svg class="ik"><use href="#i-kisiler"/></svg>
-      <b>Bir kişi seç</b><span>Soldaki listeden bir üye ya da aday seç.</span>
+      <b>Kimse seçili değil</b><span>Listeden bir kişi seç.</span>
     </div>
 
     <div id="kart" hidden>
-      <button id="geri" class="geri"><svg class="ik"><use href="#i-sol"/></svg>Liste</button>
-      <div class="kimlik">
+      <button id="geri" class="geri"><svg class="ik"><use href="#i-sol"/></svg>Geri</button>
+
+      <header class="kart-ust">
         <div id="kAvatar" class="avatar"></div>
         <div class="kimlik-ic">
-          <div id="kEtiketler" class="etiketler"></div>
           <h1 id="kAd"></h1>
-          <div id="kMeta" class="meta"></div>
-        </div>
-      </div>
-
-      <div class="numara-satir">
-        <div class="numara">
-          <button id="kTel" class="tel" title="Kopyala"></button>
-          <span id="kTelTur" class="tel-tur"></span>
+          <div id="kEtiketler" class="durum-satir"></div>
         </div>
         <div class="eylemler">
-          <button id="eAra" class="ana-dugme"><svg class="ik"><use href="#i-telefon"/></svg>Ara<kbd>↵</kbd></button>
-          <button id="eWa" class="duz"><svg class="ik"><use href="#i-wa"/></svg>WhatsApp<kbd>W</kbd></button>
-          <button id="eKopya" class="duz ikon-dugme" title="Numarayı kopyala (C)"><svg class="ik"><use href="#i-kopya"/></svg></button>
+          <button id="eWa" class="duz"><svg class="ik"><use href="#i-wa"/></svg><span>WhatsApp</span></button>
+          <button id="eAra" class="ana-dugme"><svg class="ik"><use href="#i-telefon"/></svg><span>Ara</span></button>
         </div>
-      </div>
-      <div id="sure" class="sure" hidden><i></i>Görüşme sürüyor <b id="sureMetin">00:00</b></div>
-      <button id="kIzin" class="izin" title="İleti iznini değiştir"></button>
+      </header>
+      <div id="sure" class="sure" hidden><i></i>Görüşme sürüyor · <b id="sureMetin">00:00</b></div>
 
-      <div id="kBilgi" class="bilgiler"></div>
       <div id="kNeden" class="neden" hidden></div>
 
-      <div class="blok">
-        <div class="blok-baslik">Görüşme sonucu</div>
+      <dl id="kBilgi" class="bilgiler"></dl>
+
+      <div class="sekmeler" role="tablist">
+        <button data-sekme="gorusme" class="secili" role="tab">Görüşme</button>
+        <button data-sekme="mesaj" role="tab">Mesajlar <span id="otoSay"></span></button>
+        <button data-sekme="gecmis" role="tab">Geçmiş <span id="gecmisSay"></span></button>
+      </div>
+
+      <section class="sekme" data-sekme-ic="gorusme">
         <div id="sonuclar" class="sonuclar"></div>
-        <textarea id="not" rows="2" placeholder="Görüşme notu (N)"></textarea>
+        <div id="digerSonuclar" class="diger-sonuclar"></div>
+        <textarea id="not" rows="2" placeholder="Not ekle…"></textarea>
         <div id="kNotlar" class="notlar" hidden></div>
-      </div>
-
-      <div class="blok">
-        <div class="blok-baslik">Otomatik iletişim <span id="otoSay"></span></div>
+      </section>
+      <section class="sekme" data-sekme-ic="mesaj" hidden>
         <ol id="kMesajlar" class="mesajlar"></ol>
-      </div>
-
-      <div class="blok">
-        <div class="blok-baslik">Geçmiş <span id="gecmisSay"></span></div>
+      </section>
+      <section class="sekme" data-sekme-ic="gecmis" hidden>
         <ol id="kGecmis" class="gecmis"></ol>
-      </div>
+      </section>
+
+      <footer class="kart-alt">
+        <button id="kTel" class="tel" title="Numarayı kopyala"></button><span id="kTelTur"></span>
+        <button id="eKopya" hidden></button>
+        <button id="kIzin" class="izin" title="İleti iznini değiştir"></button>
+        <span id="kMeta" class="meta"></span>
+      </footer>
     </div>
   </main>
 </div>
@@ -146,7 +142,7 @@
     <div class="pencere-ust"><h2 id="zamanBaslik">Ne zaman?</h2><button class="kapat" data-kapat="zamanModal" aria-label="Kapat">×</button></div>
     <div id="hizliZaman" class="hizli-zaman"></div>
     <label class="alan"><span>Ya da tarih ve saat seç</span><input id="zamanElle" type="datetime-local"></label>
-    <div class="pencere-alt"><button class="duz" data-kapat="zamanModal">Vazgeç</button><button id="zamanTamam" class="ana-dugme">Kaydet <kbd>↵</kbd></button></div>
+    <div class="pencere-alt"><button class="duz" data-kapat="zamanModal">Vazgeç</button><button id="zamanTamam" class="ana-dugme">Kaydet</button></div>
   </div>
 </div>
 
@@ -157,7 +153,7 @@
     <div id="paketler" class="paketler"></div>
     <label class="alan"><span>Tahsil edilen tutar (TL)</span><input id="paketTutar" inputmode="decimal"></label>
     <p id="paketBilgi" class="soluk"></p>
-    <div class="pencere-alt"><button class="duz" data-kapat="paketModal">Vazgeç</button><button id="paketTamam" class="ana-dugme">Kaydet <kbd>↵</kbd></button></div>
+    <div class="pencere-alt"><button class="duz" data-kapat="paketModal">Vazgeç</button><button id="paketTamam" class="ana-dugme">Kaydet</button></div>
   </div>
 </div>
 
@@ -168,7 +164,7 @@
     <p id="waAciklama" class="soluk"></p>
     <label class="alan"><span>Cep numarası</span><input id="waNo" inputmode="tel" placeholder="05xx xxx xx xx"></label>
     <label class="alan"><span>Mesaj</span><textarea id="waMetin" rows="7"></textarea></label>
-    <div class="pencere-alt"><button class="duz" data-kapat="waModal">Vazgeç</button><button id="waGonder" class="ana-dugme"><svg class="ik"><use href="#i-wa"/></svg>Gönder <kbd>⌘↵</kbd></button></div>
+    <div class="pencere-alt"><button class="duz" data-kapat="waModal">Vazgeç</button><button id="waGonder" class="ana-dugme"><svg class="ik"><use href="#i-wa"/></svg>Gönder</button></div>
   </div>
 </div>
 
@@ -200,7 +196,7 @@
 <!-- Panel -->
 <div id="panelModal" class="modal" hidden>
   <div class="pencere genis">
-    <div class="pencere-ust"><h2>Panel</h2><button class="kapat" data-kapat="panelModal" aria-label="Kapat">×</button></div>
+    <div class="pencere-ust"><h2>Rapor</h2><button class="kapat" data-kapat="panelModal" aria-label="Kapat">×</button></div>
     <div id="panelIc"></div>
   </div>
 </div>
@@ -225,7 +221,7 @@
     </div>
     <label class="alan"><span>Not</span><input id="yNot"></label>
     <label class="onay-kutu"><input id="yIzin" type="checkbox" checked> Ticari ileti izni alındı (otomatik mesaj gidebilir)</label>
-    <div class="pencere-alt"><button class="duz" data-kapat="ekleModal">Vazgeç</button><button id="yKaydet" class="ana-dugme">Ekle</button></div>
+    <div class="pencere-alt"><button class="metin-dugme" data-ac="iceModal">Listeden içe aktar</button><span class="bosluk"></span><button class="duz" data-kapat="ekleModal">Vazgeç</button><button id="yKaydet" class="ana-dugme">Ekle</button></div>
   </div>
 </div>
 
@@ -256,9 +252,10 @@
     <div class="menu-araclar">
       <button data-ac="otoModal"><svg class="ik"><use href="#i-simsek"/></svg>Otomasyon</button>
       <button data-ac="kampModal"><svg class="ik"><use href="#i-bayrak"/></svg>Kampanyalar</button>
-      <button data-ac="panelModal"><svg class="ik"><use href="#i-grafik"/></svg>Panel</button>
+      <button data-ac="panelModal"><svg class="ik"><use href="#i-grafik"/></svg>Rapor</button>
       <button data-ac="ekleModal"><svg class="ik"><use href="#i-arti"/></svg>Kişi ekle</button>
       <button data-ac="iceModal"><svg class="ik"><use href="#i-yukle"/></svg>İçe aktar</button>
+      <button id="klasorAc"><svg class="ik"><use href="#i-klasor"/></svg>Veri klasörü</button>
     </div>
   </div>
 </div>
@@ -268,7 +265,7 @@
   <div class="pencere">
     <div class="pencere-ust"><h2>Klavye kısayolları</h2><button class="kapat" data-kapat="yardimModal" aria-label="Kapat">×</button></div>
     <table class="kisayollar">
-      <tr><td><kbd>↵</kbd></td><td>Ara (numarayı kopyalar, süreyi başlatır)</td></tr>
+      <tr><td></td><td>Ara (numarayı kopyalar, süreyi başlatır)</td></tr>
       <tr><td><kbd>1</kbd>–<kbd>8</kbd></td><td>Görüşme sonucunu kaydet</td></tr>
       <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>Listede gezin</td></tr>
       <tr><td><kbd>W</kbd></td><td>WhatsApp mesajı</td></tr>
